@@ -1,0 +1,31 @@
+<!-- Here, the base for every page is stored. This is the header part of application  -->
+
+
+{% block head %}
+
+<!-- You must define HTML like this to explicitly state you want to use HTML5 -->
+<!DOCTYPE html>
+<html lang="en">
+<!-- Here is the shared head tag for all child elements. -->
+
+<head>
+
+    <meta charset="utf-8" />
+    <!-- Bootstrap5 CDN Call -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - ITU Architecture</title>
+
+</head>
+{% endblock %}
+
+<body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
+        {% endblock %}
+    </div>
+</body>
+
+</html>
