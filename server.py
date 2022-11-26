@@ -1,15 +1,27 @@
 from flask import Flask, render_template, session, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-import os
-from helpers import read_img_files 
+from helpers import read_img_files
 import json
-db = SQLAlchemy()
+
 
      
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mimari-proje'
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mimari.db"
-db.init_app(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost:5432/arch_db"
+db = SQLAlchemy(app)
+
+class Entry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    pleasant = db.Column(db.Integer)
+    interesting = db.Column(db.Integer)
+    beautiful = db.Column(db.Integer)
+    normal = db.Column(db.Integer)
+    calm = db.Column(db.Integer)
+    spacious = db.Column(db.Integer)
+    bright = db.Column(db.Integer)
+    open = db.Column(db.Integer)
+    simple = db.Column(db.Integer)
+    safe = db.Column(db.Integer)
 
 range_questions = [
 ("Unpleasant", "Pleasant"),
@@ -70,17 +82,16 @@ def handle_form():
         negative_samples = request.form['negative_samples']
         positive_samples = request.form['positive_samples']
         form_data_list = json.loads(jsdata)
+        print(type(form_data_list))
         neg_samples_list = json.loads(negative_samples)
         pos_samples_list = json.loads(positive_samples)
-        if (len(neg_samples_list)):
-            print(neg_samples_list)
-        else:
-            print("No negative samples")
-        if len(pos_samples_list):
-            print(pos_samples_list)
-        else:
-            print("No positive samples")
-        print(form_data_list)
+        newEntry = Entry(pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
+                        beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'],
+                        calm=form_data_list[4]['value'], spacious=form_data_list[5]['value'],
+                        bright=form_data_list[6]['value'], open=form_data_list[7]['value'],
+                        simple=form_data_list[8]['value'], safe=form_data_list[9]['value'])
+        db.session.add(newEntry)
+        db.session.commit()
         return redirect('/')
 
 @app.route('/', methods=['GET', 'POST'])
