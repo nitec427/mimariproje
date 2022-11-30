@@ -6,6 +6,7 @@ import os
 from database import Database
 from models import Entry
 import sqlite3 as dbapi2
+import pprint
 
      
 app = Flask(__name__)
@@ -25,7 +26,7 @@ if (os.path.exists('./archDB.db') == False):
         streetLink INTEGER, buildingScale INTEGER, propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER,
         vivid INTEGER, damagedBuilding INTEGER, humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER,
         smallPlant INTEGER, histBuildings INTEGER, contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER,
-        accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER)""")
+        accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB)""")
     con.close()
 
 app.config["dbconfig"] = db
@@ -89,8 +90,9 @@ def handle_form():
         negative_samples = request.form['negative_samples']
         positive_samples = request.form['positive_samples']
         form_data_list = json.loads(jsdata)
-        neg_samples_list = json.loads(negative_samples)
-        pos_samples_list = json.loads(positive_samples)
+        neg_samples_list = str(json.loads(negative_samples))
+        pos_samples_list = str(json.loads(positive_samples))
+
         myDB = current_app.config["dbconfig"]
         newEntry = Entry(pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'], beautiful=form_data_list[2]['value'],
                         normal=form_data_list[3]['value'], calm=form_data_list[4]['value'], spacious=form_data_list[5]['value'],
@@ -103,7 +105,7 @@ def handle_form():
                         allStreetFurn=form_data_list[24]['value'], smallPlant=form_data_list[25]['value'], histBuildings=form_data_list[26]['value'],
                         contemporaryBuildings=form_data_list[27]['value'], urbanFeat=form_data_list[28]['value'], greenness=form_data_list[29]['value'],
                         accentColor=form_data_list[30]['value'], publicSpaceUsage=form_data_list[31]['value'], community=form_data_list[32]['value'],
-                        trafficVol=form_data_list[33]['value'])
+                        trafficVol=form_data_list[33]['value'], posSamples=pos_samples_list, negSamples=neg_samples_list)
         db.addEntry(newEntry)
         return redirect('/')
 

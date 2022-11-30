@@ -3,7 +3,7 @@ class Entry:
                  firstFloorUse, prop1FloorWind, pavementQuality, scenery, pavementContinuity, streetLink, buildingScale,
                  propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding, humanPopulation, carParking,
                  allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat, greenness, accentColor,
-                 publicSpaceUsage, community, trafficVol):
+                 publicSpaceUsage, community, trafficVol, posSamples, negSamples):
 
         self.pleasant = pleasant
         self.interesting = interesting
@@ -40,3 +40,5 @@ class Entry:
         self.publicSpaceUsage = publicSpaceUsage
         self.community = community
         self.trafficVol = trafficVol
+        self.posSamples = posSamples
+        self.negSamples = negSamples

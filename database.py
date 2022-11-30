@@ -13,8 +13,8 @@ class Database:
             simpleness, safe, firstFloorUse, prop1FloorWind, pavementQuality, scenery, pavementContinuity, streetLink,
             buildingScale, propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding, humanPopulation, carParking,
             allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat, greenness, accentColor,
-            publicSpaceUsage, community, trafficVol)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+            publicSpaceUsage, community, trafficVol, posSamples, negSamples)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
             cursor.execute(query, (newEntry.pleasant, newEntry.interesting, newEntry.beautiful, newEntry.normal, newEntry.calm,
                 newEntry.spacious, newEntry.bright, newEntry.opennes, newEntry.simpleness, newEntry.safe, newEntry.firstFloorUse,
@@ -22,5 +22,5 @@ class Database:
                 newEntry.buildingScale, newEntry.propStreetWall, newEntry.propSkyAcross, newEntry.streetWidth, newEntry.vivid,
                 newEntry.damagedBuilding, newEntry.humanPopulation, newEntry.carParking, newEntry.allStreetFurn, newEntry.smallPlant,
                 newEntry.histBuildings, newEntry.contemporaryBuildings, newEntry.urbanFeat, newEntry.greenness, newEntry.accentColor,
-                newEntry.publicSpaceUsage, newEntry.community, newEntry.trafficVol))
+                newEntry.publicSpaceUsage, newEntry.community, newEntry.trafficVol, newEntry.posSamples, newEntry.negSamples))
             cursor.close()
