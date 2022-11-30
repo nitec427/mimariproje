@@ -1,27 +1,34 @@
-from flask import Flask, render_template, session, request, redirect, url_for
+from flask import Flask, render_template, session, request, redirect, current_app
 from flask_sqlalchemy import SQLAlchemy
 from helpers import read_img_files
 import json
-
+import os
+from database import Database
+from models import Entry
+import sqlite3 as dbapi2
 
      
 app = Flask(__name__)
+app.config.from_object("settings")
 app.config['SECRET_KEY'] = 'mimari-proje'
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@localhost:5432/arch_db"
-db = SQLAlchemy(app)
+home_dir = os.getcwd()
+db = Database(os.path.join(home_dir, "archDB.db"))
 
-class Entry(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    pleasant = db.Column(db.Integer)
-    interesting = db.Column(db.Integer)
-    beautiful = db.Column(db.Integer)
-    normal = db.Column(db.Integer)
-    calm = db.Column(db.Integer)
-    spacious = db.Column(db.Integer)
-    bright = db.Column(db.Integer)
-    open = db.Column(db.Integer)
-    simple = db.Column(db.Integer)
-    safe = db.Column(db.Integer)
+##CREATE Database if not exist
+if (os.path.exists('./archDB.db') == False):
+    con = dbapi2.connect("archDB.db")
+
+    con.execute(
+        """CREATE TABLE ENTRIES (ID INTEGER PRIMARY KEY AUTOINCREMENT, pleasant INTEGER, interesting INTEGER, beautiful INTEGER,
+        normal INTEGER, calm INTEGER, spacious INTEGER, bright INTEGER, opennes INTEGER, simpleness INTEGER, safe INTEGER,
+        firstFloorUse INTEGER, prop1FloorWind INTEGER, pavementQuality INTEGER, scenery INTEGER, pavementContinuity INTEGER,
+        streetLink INTEGER, buildingScale INTEGER, propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER,
+        vivid INTEGER, damagedBuilding INTEGER, humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER,
+        smallPlant INTEGER, histBuildings INTEGER, contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER,
+        accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER)""")
+    con.close()
+
+app.config["dbconfig"] = db
 
 range_questions = [
 ("Unpleasant", "Pleasant"),
@@ -78,25 +85,30 @@ def logout_page():
 @app.route('/postmethod', methods=['POST'])
 def handle_form():
     if request.method == 'POST':
-        jsdata = request.form['jsdata']     
+        jsdata = request.form['jsdata']
         negative_samples = request.form['negative_samples']
         positive_samples = request.form['positive_samples']
         form_data_list = json.loads(jsdata)
-        print(type(form_data_list))
         neg_samples_list = json.loads(negative_samples)
         pos_samples_list = json.loads(positive_samples)
-        newEntry = Entry(pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
-                        beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'],
-                        calm=form_data_list[4]['value'], spacious=form_data_list[5]['value'],
-                        bright=form_data_list[6]['value'], open=form_data_list[7]['value'],
-                        simple=form_data_list[8]['value'], safe=form_data_list[9]['value'])
-        db.session.add(newEntry)
-        db.session.commit()
+        myDB = current_app.config["dbconfig"]
+        newEntry = Entry(pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'], beautiful=form_data_list[2]['value'],
+                        normal=form_data_list[3]['value'], calm=form_data_list[4]['value'], spacious=form_data_list[5]['value'],
+                        bright=form_data_list[6]['value'], opennes=form_data_list[7]['value'], simpleness=form_data_list[8]['value'],
+                        safe=form_data_list[9]['value'], firstFloorUse=form_data_list[10]['value'], prop1FloorWind=form_data_list[11]['value'],
+                        pavementQuality=form_data_list[12]['value'], scenery=form_data_list[13]['value'], pavementContinuity=form_data_list[14]['value'],
+                        streetLink=form_data_list[15]['value'], buildingScale=form_data_list[16]['value'], propStreetWall=form_data_list[17]['value'],
+                        propSkyAcross=form_data_list[18]['value'], streetWidth=form_data_list[19]['value'], vivid=form_data_list[20]['value'],
+                        damagedBuilding=form_data_list[21]['value'], humanPopulation=form_data_list[22]['value'], carParking=form_data_list[23]['value'],
+                        allStreetFurn=form_data_list[24]['value'], smallPlant=form_data_list[25]['value'], histBuildings=form_data_list[26]['value'],
+                        contemporaryBuildings=form_data_list[27]['value'], urbanFeat=form_data_list[28]['value'], greenness=form_data_list[29]['value'],
+                        accentColor=form_data_list[30]['value'], publicSpaceUsage=form_data_list[31]['value'], community=form_data_list[32]['value'],
+                        trafficVol=form_data_list[33]['value'])
+        db.addEntry(newEntry)
         return redirect('/')
 
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
-    print('imdi geldin')
     session.clear()
 
     if "newsession" not in session:
@@ -109,7 +121,6 @@ def home_page():
 
     if request.method == 'GET':
 
-        print(session)
 
         if not session['logged_in']:
             return render_template('home.html')
