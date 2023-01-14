@@ -5,9 +5,66 @@ const button3 = document.querySelector("#btn3");
 const button4 = document.querySelector("#btn4");
 const button5 = document.querySelector("#btn5");
 const button6 = document.querySelector("#btn6");
+const button7 = document.querySelector("#btn7");
+// const button8 = document.querySelector("#btn8");
 const buttonNext = document.querySelector("#btnNext");
 const buttonPrev = document.querySelector("#btnPrev");
 const submitButton = document.querySelector("#submit");
+const showAllSamples = document.querySelector("#showall");
+let counter = 0;
+let poly_counter = 0;
+let label = "";
+// TO-DO: Send also tag information
+//
+const allDivs = document.querySelectorAll("div.d-flex.justify-content-evenly");
+const negativeTagsRadios = document
+  .querySelectorAll("div.row.align-items-center.mt-5.justify-content-center")[0]
+  .querySelectorAll("input");
+const positiveTagsRadios = document
+  .querySelectorAll("div.row.align-items-center.mt-5.justify-content-center")[1]
+  .querySelectorAll("input");
+
+allDivs.forEach((radioButton) => {
+  radioButton.addEventListener("click", function () {
+    if (!this.clicked) {
+      counter++;
+      this.clicked = true;
+    }
+  });
+});
+let negative_tag_counter = 0;
+negativeTagsRadios.forEach((radioButton) => {
+  radioButton.addEventListener("click", function () {
+    negative_tag_counter++;
+    let sample_id = this.id.substring(0, this.id.length - 1);
+    if (this.id.includes("/")) {
+      sample_id = sample_id.replace("/", "");
+    }
+    sample_id = sample_id.replace(" ", "");
+    sample_id = sample_id.toLowerCase();
+    label = sample_id + "_neg";
+
+    if (!this.clicked) {
+      this.clicked = true;
+    }
+  });
+});
+let positive_tag_counter = 0;
+positiveTagsRadios.forEach((radioButton) => {
+  radioButton.addEventListener("click", function () {
+    positive_tag_counter++;
+    let sample_id = this.id;
+    if (this.id.includes("/")) {
+      sample_id = sample_id.replace("/", "");
+    }
+    sample_id = sample_id.replace(" ", "");
+    sample_id = sample_id.toLowerCase();
+    label = sample_id;
+    if (!this.clicked) {
+      this.clicked = true;
+    }
+  });
+});
 var r = document.querySelector(":root");
 color_dict = {
   primary: "#2f35fa",
@@ -43,21 +100,30 @@ function setBubble(range, bubble) {
   bubble.style.top = `1.3rem`;
 }
 
-// Carousel inner selection
-
 const formList = document.querySelector(".carousel-inner");
 const carouselItems = formList.querySelectorAll(".carousel-item");
 // remove all carousel items active class and active class
-const button_list = [button1, button2, button3, button4, button5, button6];
-button1.addEventListener("click", () => {
+const button_list = [
+  button1,
+  button2,
+  button3,
+  button4,
+  button5,
+  button6,
+  button7,
+];
+button1.addEventListener("click", (e) => {
+  e.preventDefault();
   // First remove from others
   button_list.map((button) => button.classList.remove("btn-" + theme));
   button_list.map((button) => button.classList.add("btn-outline-" + theme));
   // Add primary now
   button1.classList.add("btn-" + theme);
   button1.classList.remove("btn-outline-" + theme);
+  buttonNext.classList.remove("d-none");
   carouselItems.forEach((elem) => elem.classList.remove("active"));
   carouselItems[0].classList.add("active");
+  buttonPrev.classList.add("d-none");
 });
 button2.addEventListener("click", (e) => {
   e.preventDefault();
@@ -67,7 +133,9 @@ button2.addEventListener("click", (e) => {
   // Add primary now
   button2.classList.add("btn-" + theme);
   button2.classList.remove("btn-outline-" + theme);
+  buttonPrev.classList.remove("d-none");
   carouselItems.forEach((elem) => elem.classList.remove("active"));
+  buttonNext.classList.remove("d-none");
   carouselItems[1].classList.add("active");
 });
 button3.addEventListener("click", (e) => {
@@ -77,30 +145,36 @@ button3.addEventListener("click", (e) => {
   button_list.map((button) => button.classList.add("btn-outline-" + theme));
   // Add primary now
   button3.classList.add("btn-" + theme);
+  buttonPrev.classList.remove("d-none");
   button3.classList.remove("btn-outline-" + theme);
   carouselItems.forEach((elem) => elem.classList.remove("active"));
+  buttonNext.classList.remove("d-none");
   carouselItems[2].classList.add("active");
 });
 button4.addEventListener("click", (e) => {
   e.preventDefault();
   // First remove from others
+  buttonPrev.classList.remove("d-none");
   button_list.map((button) => button.classList.remove("btn-" + theme));
   button_list.map((button) => button.classList.add("btn-outline-" + theme));
   // Add primary now
   button4.classList.add("btn-" + theme);
   button4.classList.remove("btn-outline-" + theme);
   carouselItems.forEach((elem) => elem.classList.remove("active"));
+  buttonNext.classList.remove("d-none");
   carouselItems[3].classList.add("active");
 });
 button5.addEventListener("click", (e) => {
   e.preventDefault();
   // First remove from others
+  buttonPrev.classList.remove("d-none");
   button_list.map((button) => button.classList.remove("btn-" + theme));
   button_list.map((button) => button.classList.add("btn-outline-" + theme));
   // Add primary now
   button5.classList.add("btn-" + theme);
   button5.classList.remove("btn-outline-" + theme);
   carouselItems.forEach((elem) => elem.classList.remove("active"));
+  buttonNext.classList.remove("d-none");
   carouselItems[4].classList.add("active");
 });
 button6.addEventListener("click", (e) => {
@@ -111,10 +185,37 @@ button6.addEventListener("click", (e) => {
   // Add primary now
   button6.classList.add("btn-" + theme);
   button6.classList.remove("btn-outline-" + theme);
+  buttonPrev.classList.remove("d-none");
+  buttonNext.classList.remove("d-none");
   carouselItems.forEach((elem) => elem.classList.remove("active"));
   carouselItems[5].classList.add("active");
-  submitButton.classList.remove("d-none");
 });
+button7.addEventListener("click", (e) => {
+  e.preventDefault();
+  // First remove from others
+  button_list.map((button) => button.classList.remove("btn-" + theme));
+  button_list.map((button) => button.classList.add("btn-outline-" + theme));
+  // Add primary now
+  button7.classList.add("btn-" + theme);
+  button7.classList.remove("btn-outline-" + theme);
+  carouselItems.forEach((elem) => elem.classList.remove("active"));
+  carouselItems[6].classList.add("active");
+  submitButton.classList.remove("d-none");
+  buttonNext.classList.add("d-none");
+  buttonPrev.classList.remove("d-none");
+});
+// button8.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   // First remove from others
+//   button_list.map((button) => button.classList.remove("btn-" + theme));
+//   button_list.map((button) => button.classList.add("btn-outline-" + theme));
+//   // Add primary now
+//   button8.classList.add("btn-" + theme);
+//   button8.classList.remove("btn-outline-" + theme);
+//   carouselItems.forEach((elem) => elem.classList.remove("active"));
+//   carouselItems[7].classList.add("active");
+
+// });
 buttonNext.addEventListener("click", (e) => {
   let active = document.querySelector(".carousel-item.active");
   // Get its ID
@@ -127,14 +228,15 @@ buttonNext.addEventListener("click", (e) => {
   button_list.map((button) => button.classList.remove("btn-" + theme));
   button_list[active_id].classList.remove("btn-outline-" + theme);
   button_list[active_id].classList.add("btn-" + theme);
-
+  buttonPrev.classList.remove("d-none");
   let next = active.nextElementSibling;
   if (next) {
     active.classList.remove("active");
     next.classList.add("active");
   }
-  if (active_id == 5) {
+  if (active_id == 6) {
     submitButton.classList.remove("d-none");
+    buttonNext.classList.add("d-none");
     return;
   }
 });
@@ -145,6 +247,7 @@ buttonPrev.addEventListener("click", (e) => {
 
   let active_id = active.id;
   if (active_id == 1) {
+    buttonPrev.classList.add("d-none");
     return;
   }
   carouselItems.forEach((elem) => elem.classList.remove("active"));
@@ -158,16 +261,21 @@ buttonPrev.addEventListener("click", (e) => {
     active.classList.remove("active");
     prev.classList.add("active");
   }
+  buttonNext.classList.remove("d-none");
 });
 // Draw polygons with the following code
 // https://stackoverflow.com/questions/29441389/how-to-draw-polygon-on-canvas-with-mouse-clicks-pure-js
 // JQuery Code
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
+  if (counter != 24) {
+    alert("Please fill in all the fields.");
+    // go to next page
+    return;
+  }
   let fields = $(":input").serializeArray();
   fields.positive_samples = positive_samples;
   fields.negative_samples = negative_samples;
-  console.log(fields);
   $.post("/postmethod", {
     jsdata: JSON.stringify(fields),
     negative_samples: JSON.stringify(negative_samples),
@@ -198,19 +306,143 @@ let coordinates = [];
 
 $("#positives").click(function (e) {
   e.preventDefault();
+  if (poly_counter == 0) {
+    alert("Please draw a polygon first.");
+    return;
+  }
+  if (positive_tag_counter == 0) {
+    alert("Please select a positive tag first.");
+    return;
+  }
+  positiveTagsRadios.forEach((radioButton) => {
+    radioButton.checked = false;
+  });
+  alert("Positive sample added.");
+  positive_tag_counter = 0;
+  coordinates.push({ label: label });
   positive_samples.push(coordinates);
+  // Draw positive samples on the canvas
   coordinates = [];
   context.clearRect(0, 0, cw, ch);
+  context.lineWidth = 4;
+  context.strokeStyle = "green";
+  context.fillStyle = "rgba(0,255,0,.2)";
+  for (var i = 0; i < positive_samples.length; i++) {
+    context.beginPath();
+    context.moveTo(positive_samples[i][0].x, positive_samples[i][0].y);
+    for (var j = 1; j < positive_samples[i].length; j++) {
+      context.lineTo(positive_samples[i][j].x, positive_samples[i][j].y);
+    }
+
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }
+  context.strokeStyle = "red";
+  context.fillStyle = "rgba(255,0,0,.2)";
+  for (var i = 0; i < negative_samples.length; i++) {
+    context.beginPath();
+    context.moveTo(negative_samples[i][0].x, negative_samples[i][0].y);
+    for (var j = 1; j < negative_samples[i].length; j++) {
+      context.lineTo(negative_samples[i][j].x, negative_samples[i][j].y);
+    }
+
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }
+  poly_counter = 0;
+  // Fetch the pressed text
+});
+$("#showall").click(function (e) {
+  e.preventDefault();
+  context.lineWidth = 4;
+  context.strokeStyle = "green";
+  context.fillStyle = "rgba(0,255,0,.2)";
+  for (var i = 0; i < positive_samples.length; i++) {
+    context.beginPath();
+    context.moveTo(positive_samples[i][0].x, positive_samples[i][0].y);
+    for (var j = 1; j < positive_samples[i].length; j++) {
+      context.lineTo(positive_samples[i][j].x, positive_samples[i][j].y);
+    }
+
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }
+  context.strokeStyle = "red";
+  context.fillStyle = "rgba(255,0,0,.2)";
+  for (var i = 0; i < negative_samples.length; i++) {
+    context.beginPath();
+    context.moveTo(negative_samples[i][0].x, negative_samples[i][0].y);
+    for (var j = 1; j < negative_samples[i].length; j++) {
+      context.lineTo(negative_samples[i][j].x, negative_samples[i][j].y);
+    }
+
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }
 });
 $("#negatives").click(function (e) {
   e.preventDefault();
+  if (poly_counter == 0) {
+    alert("Please draw a polygon first.");
+    return;
+  }
+  if (negative_tag_counter == 0) {
+    alert("Please select a negative tag first.");
+    return;
+  }
+  negativeTagsRadios.forEach((radioButton) => {
+    radioButton.checked = false;
+  });
+  coordinates.push({ label: label });
+  // To-Do: Send which item is clicked for both negative and positive
+  // Move walkability part to the first page, add database entry
+  // Configure database and add the data to the database
+  // User credentials and all images are needed
+  negative_tag_counter = 0;
   negative_samples.push(coordinates);
-  console.log(negative_samples);
   coordinates = [];
   context.clearRect(0, 0, cw, ch);
+
+  context.lineWidth = 4;
+  context.strokeStyle = "red";
+  context.fillStyle = "rgba(255,0,0,.2)";
+  for (var i = 0; i < negative_samples.length; i++) {
+    context.beginPath();
+    context.moveTo(negative_samples[i][0].x, negative_samples[i][0].y);
+    for (var j = 1; j < negative_samples[i].length; j++) {
+      context.lineTo(negative_samples[i][j].x, negative_samples[i][j].y);
+    }
+
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }
+  context.strokeStyle = "green";
+  context.fillStyle = "rgba(0,255,0,.2)";
+  for (var i = 0; i < positive_samples.length; i++) {
+    context.beginPath();
+    context.moveTo(positive_samples[i][0].x, positive_samples[i][0].y);
+    for (var j = 1; j < positive_samples[i].length; j++) {
+      context.lineTo(positive_samples[i][j].x, positive_samples[i][j].y);
+    }
+
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }
+  poly_counter = 0;
 });
 $("#clear").click(function (e) {
   e.preventDefault();
+  if (poly_counter == 0) {
+    alert("Please draw a polygon first.");
+    return;
+  }
+  poly_counter = 0;
   coordinates = [];
   context.clearRect(0, 0, cw, ch);
 });
@@ -218,7 +450,6 @@ $("#clear").click(function (e) {
 $("#canvas").mousedown(function (e) {
   handleMouseDown(e);
 });
-
 function handleMouseDown(e) {
   // tell the browser we're handling this event
   e.preventDefault();
@@ -231,7 +462,12 @@ function handleMouseDown(e) {
 }
 
 function drawPolygon() {
-  context.clearRect(0, 0, cw, ch);
+  // Aşağıdaki satır çizilirken çizimi bozuyor ama yeni bir şekle tıklandığında işler kolaylaşıyor.
+  if (poly_counter != 0) {
+    context.clearRect(0, 0, cw, ch);
+  }
+  poly_counter += 1;
+
   context.beginPath();
   context.moveTo(coordinates[0].x, coordinates[0].y);
   for (index = 1; index < coordinates.length; index++) {
@@ -241,4 +477,3 @@ function drawPolygon() {
   context.closePath();
   context.stroke();
 }
-// get values from array

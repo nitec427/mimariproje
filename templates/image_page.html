@@ -25,28 +25,25 @@
         <a class="nav-link" href="#">Images</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/logout">Log out</a>
+        <a class="nav-link" href="{{url_for('logout')}}">Log out</a>
       </li>
     </ul>
   </nav>
   <!-- Use pagination system to let user be able to navigate accordingly. -->
   <form action="" method="POST">
     <div class=" row g-2">
-      <div class="col-xl text-center">
-        <div class="image_margin">
-          <button class="btn btn-success" id="positives">Positive Sample</button>
-          <button class="btn btn-danger" id="negatives">Negative Sample</button>
-          <button class="btn btn-info" id="clear"> Clear</button>
-        </div>
-        <canvas id="canvas" width=800 height=600 style="background: url('/static/images/{{image_id}}.jpeg');background-size: cover"></canvas>
-        <div class="mt-3">
-          <button class="btn btn-outline-{{color_theme2}} rounded" id="btnPrev">Prev</button>
+      <div class="col-xl text-center mt-5">
+        <canvas id="canvas" width=800 height=640 style="background: url('/static/images/unprocessed/{{image_path}}/{{image_id}}.jpeg');background-size: cover"></canvas>
+        <div class="mt-4">
+          <button class="btn btn-outline-{{color_theme2}} rounded d-none" id="btnPrev">Prev</button>
           <button class="btn btn-{{color_theme2}} rounded-circle" id="btn1">1</button>
           <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn2">2</button>
           <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn3">3</button>
           <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn4">4</button>
           <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn5">5</button>
           <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn6">6</button>
+          <button class="btn btn-outline-{{color_theme2}} rounded" id="btn7">Tag Page</button>
+          <!-- <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn8">8</button> -->
           <button class="btn btn-outline-{{color_theme2}} rounded" id="btnNext">Next</button>
           <input type="submit" value="Submit" class="btn btn-success d-none" id="submit">
         </div>
@@ -67,15 +64,15 @@
               </div>
               {% endfor %}
             </div>
-            <div class="carousel-item mt-3" id="2">
+            <div class="carousel-item mt-4" id="2">
               {% for item in questions_multiple_answers[:5] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-3">
-                    <h3 class="text-white">{{item[0]}}</h3>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong> ({{item[2]}})</p>
+                  <div class="row mt-4">
+                    <h4 class="text-white">{{item[4]}}-) {{item[0]}}</h4>
+                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong> ({{item[1]}})</p>
                   </div>
                   <div class="d-flex justify-content-evenly">
                     <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
@@ -96,15 +93,15 @@
               </div>
               {% endfor %}
             </div>
-            <div class="carousel-item mt-3" id="3">
+            <div class="carousel-item mt-4" id="3">
               {% for item in questions_multiple_answers[5:10] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-3">
-                    <h3 class="text-white">{{item[0]}}</h3>
-                    <p class="lead mt-1 text-white"><strong>{{item[1]}}</strong> ({{item[2]}})</p>
+                  <div class="row mt-4">
+                    <h4 class="text-white">{{item[4]}}-) {{item[0]}}</h4>
+                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong> ({{item[1]}})</p>
                   </div>
                   <div class="d-flex justify-content-evenly">
                     <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
@@ -125,15 +122,15 @@
               </div>
               {% endfor %}
             </div>
-            <div class="carousel-item mt-3" id="4">
+            <div class="carousel-item mt-4" id="4">
               {% for item in questions_multiple_answers[10:15] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-3">
-                    <h3 class="text-white">{{item[0]}}</h3>
-                    <p class="lead mt-1 text-white"><strong>{{item[1]}}</strong> ({{item[2]}})</p>
+                  <div class="row mt-4">
+                    <h4 class="text-white">{{item[4]}}-) {{item[0]}}</h4>
+                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong> ({{item[1]}})</p>
                   </div>
                   <div class="d-flex justify-content-evenly">
                     <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
@@ -150,9 +147,9 @@
                 </div>
                 {% else %}
                 <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-3">
-                    <h3 class="text-white">{{item[0]}}</h3>
-                    <p class="lead mt-1 text-white"><strong>{{item[1]}}</strong> ({{item[2]}})</p>
+                  <div class="row mt-4">
+                    <h4 class="text-white">{{item[4]}}-) {{item[0]}}</h4>
+                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong> ({{item[1]}})</p>
                   </div>
                   <div class="d-flex justify-content-evenly">
                     <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
@@ -171,15 +168,15 @@
               </div>
               {% endfor %}
             </div>
-            <div class="carousel-item mt-3" id="5">
+            <div class="carousel-item mt-4" id="5">
               {% for item in questions_multiple_answers[15:20] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-3">
-                    <h3 class="text-white">{{item[0]}}</h3>
-                    <p class="lead mt-1 text-white"><strong>{{item[1]}}</strong> ({{item[2]}})</p>
+                  <div class="row mt-4">
+                    <h4 class="text-white">{{item[4]}}-) {{item[0]}}</h4>
+                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong> ({{item[1]}})</p>
                   </div>
                   <div class="d-flex justify-content-evenly">
                     <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
@@ -196,9 +193,9 @@
                 </div>
                 {% else %}
                 <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-3">
-                    <h3 class="text-white">{{item[0]}}</h3>
-                    <p class="lead mt-1 text-white"><strong>{{item[1]}}</strong> ({{item[2]}})</p>
+                  <div class="row mt-4">
+                    <h4 class="text-white">{{item[4]}}-) {{item[0]}}</h4>
+                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong> ({{item[1]}})</p>
                   </div>
                   <div class="d-flex justify-content-evenly">
                     <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
@@ -219,15 +216,15 @@
               </div>
               {% endfor %}
             </div>
-            <div class="carousel-item mt-3" id="6">
+            <div class="carousel-item mt-4" id="6">
               {% for item in questions_multiple_answers[20:] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-3">
-                    <h3 class="text-white">{{item[0]}}</h3>
-                    <p class="lead mt-1 text-white"><strong>{{item[1]}}</strong> ({{item[2]}})</p>
+                  <div class="row mt-4">
+                    <h4 class="text-white">{{item[4]}}-) {{item[0]}}</h4>
+                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong> ({{item[1]}})</p>
                   </div>
                   <div class="d-flex justify-content-evenly">
                     <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
@@ -245,9 +242,9 @@
                 </div>
                 {% else %}
                 <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-3">
-                    <h3 class="text-white">{{item[0]}}</h3>
-                    <p class="lead mt-1 text-white"><strong>{{item[1]}}</strong> ({{item[2]}})</p>
+                  <div class="row mt-4">
+                    <h4 class="text-white">{{item[4]}}-) {{item[0]}}</h4>
+                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong> ({{item[1]}})</p>
                   </div>
                   <div class="d-flex justify-content-evenly">
                     <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
@@ -268,12 +265,54 @@
               </div>
               {% endfor %}
             </div>
+            <!-- At least 1 element should be selected for selecting either positive or negative sample. If not alert the user. -->
+            <div class="carousel-item mt-4 container" id="7">
+              <div class="row align-items-center mt-5 justify-content-center">
+                <h3 class="text-white mb-4">Please select the tag you have associated with current negative item</h3>
+                {% for item in negatives %}
+                <div class="col-2 neg d-flex mb-3">
+                  <input type="radio" class="btn-check flex-fill" name="negatives" value="{{item[1]}}neg" id="{{item[1]}}0">
+                  <label class="btn btn-outline-{{color_theme}} flex-fill" for="{{item[1]}}0">{{item[1]}}</label>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="row align-items-center mt-5 justify-content-center">
+                <h3 class="text-white mb-4">Please select the tag you have associated with current positive item</h3>
+                {% for item in positives %}
+                <div class="col-2 d-flex mb-3">
+                  <input type="radio" class="btn-check flex-fill" name="positives" value="{{item[1]}}pos" id="{{item[1]}}">
+                  <label class="btn btn-outline-{{color_theme}} flex-fill" for="{{item[1]}}">{{item[1]}}</label>
+
+                </div>
+                {% endfor %}
+              </div>
+              <div class="d-grid justify-content-center align-items-center">
+                <div class="image_margin">
+                  <button class="btn btn-success btn-lg" id="positives">Positive Sample</button>
+                  <button class="btn btn-danger btn-lg" id="negatives">Negative Sample</button>
+                  <button class="btn btn-info btn-lg" id="clear"> Clear</button>
+                  <button class="btn btn-warning btn-lg" id="showall">Show All Samples</button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Walkability burada çok saçma gözüküyor -->
+            <!-- <div class="carousel-item mt-4 container" id="8">
+              <div class="col-sm-8 range-wrap">
+                <div class="row mh-100">
+                  <div class="col-sm-2 text-white text-center "><b>Not Walkable</b></div>
+                  <div class="col-sm-8 range-wrap ">
+                    <input type="range" name="1" class="form-range " min="-10" max="10" step="1" id="1">
+                    <output class="bubble"></output>
+                  </div>
+                  <div class="col-sm-2 text-white text-center"><b>Walkable</b></div>
+                </div>
+              </div>
+            </div> -->
           </div>
 
         </div>
-
-      </div>
-      <div class="d-flex flex-column">
       </div>
     </div>
   </form>

@@ -1,10 +1,10 @@
 class Entry:
-    def __init__(self, pleasant, interesting, beautiful, normal, calm, spacious, bright, opennes, simpleness, safe,
+    def __init__(self, username, pleasant, interesting, beautiful, normal, calm, spacious, bright, opennes, simpleness, safe,
                  firstFloorUse, prop1FloorWind, pavementQuality, scenery, pavementContinuity, streetLink, buildingScale,
                  propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding, humanPopulation, carParking,
                  allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat, greenness, accentColor,
                  publicSpaceUsage, community, trafficVol, posSamples, negSamples):
-
+        self.username = username
         self.pleasant = pleasant
         self.interesting = interesting
         self.beautiful = beautiful

@@ -1,3 +1,6 @@
 .idea
 venv
 __init__.py
+mimariprojefastapiversion/*
+savefornow/*
+*/__pycache__/*
