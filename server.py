@@ -1,12 +1,13 @@
 from flask import Flask, render_template, session, request, redirect, current_app, url_for
-from flask_sqlalchemy import SQLAlchemy
 from helpers import read_img_files
 import json
 import os
 from database import Database
 from models import Entry
 import sqlite3 as dbapi2
-import pprint
+from passlib.hash import pbkdf2_sha256 as hasher
+from flask_login import LoginManager
+from login_management import get_user, User
 
 # İstenen şeyler
 
@@ -19,24 +20,42 @@ import pprint
 # Resimler işlendiğinde unprocessed kısmından kaldırma çünkü serverde tek bir klassörde tutuluyor. (Bunu yapmak için database'de bir column daha olabilir. (Image id, user id combined. Böylelikle sürekli kontrol edip eğer kullanıcı işlemişe labeled kısmında gösterebilirim.))
 #
 
+lm = LoginManager()
+
+
+@lm.user_loader
+def load_user(user_id):
+    return get_user(user_id)
+
+
+
 app = Flask(__name__)
 app.config.from_object("settings")
 app.config['SECRET_KEY'] = 'mimari-proje'
 home_dir = os.getcwd()
 db = Database(os.path.join(home_dir, "archDB.db"))
 
+lm.init_app(app)
+lm.login_view = "login_page"
+
 # CREATE Database if not exist
 if (os.path.exists('./archDB.db') == False):
     con = dbapi2.connect("archDB.db")
 
     con.execute(
-        """CREATE TABLE ENTRIES (ID INTEGER PRIMARY KEY AUTOINCREMENT, USERID TEXT, pleasant INTEGER, interesting INTEGER, beautiful INTEGER,
+        """CREATE TABLE ENTRIES (ID INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, pleasant INTEGER, interesting INTEGER, beautiful INTEGER,
         normal INTEGER, calm INTEGER, spacious INTEGER, bright INTEGER, opennes INTEGER, simpleness INTEGER, safe INTEGER,
         firstFloorUse INTEGER, prop1FloorWind INTEGER, pavementQuality INTEGER, scenery INTEGER, pavementContinuity INTEGER,
         streetLink INTEGER, buildingScale INTEGER, propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER,
         vivid INTEGER, damagedBuilding INTEGER, humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER,
         smallPlant INTEGER, histBuildings INTEGER, contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER,
         accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB)""")
+    con.execute("CREATE TABLE USERS (Username TEXT PRIMARY KEY, Password TEXT)")
+    username = "admin"
+    password = hasher.hash("admin")
+    print(username, password)
+    new_user = User(username, password)
+    db.addUser(new_user)
     con.close()
 
 app.config["dbconfig"] = db
@@ -209,6 +228,9 @@ questions_multiple_answers = {1: ['Birinci kat kullanımı',
 q_list = list(questions_multiple_answers.values())
 
 
+
+
+
 @app.route('/imageshow/<int:image_path>/<int:image_id>', methods=['GET', 'POST'])
 def image_page(image_path, image_id):
     print(image_path, image_id)
@@ -291,8 +313,12 @@ def home_page():
         else:
             return "You've logged in!!!!"
     else:
-        if request.form['username'] != "a" or request.form['password'] != "a":
-            return "Wrong password or username"
+        print("Password = ", db.getPassword(request.form['username']))
+        if db.getPassword(request.form['username']) == None:
+            return "Wrong username"
+        elif not hasher.verify(request.form['password'], db.getPassword(request.form['username'])):
+            return "Wrong password"
+
 
         session['username'] = request.form['username']
         session['password'] = request.form['password']
