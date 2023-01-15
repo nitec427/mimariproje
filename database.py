@@ -2,11 +2,33 @@ import sqlite3 as dbapi2
 from passlib.hash import pbkdf2_sha256 as hasher
 
 from models import Entry
+from login_management import User
 
 
 class Database:
     def __init__(self, dbfile):
         self.dbfile = dbfile
+
+    def create(self):
+        with dbapi2.connect(self.dbfile) as connection:
+
+            connection.execute(
+                """CREATE TABLE ENTRIES (ID INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, pleasant INTEGER, interesting INTEGER,
+                beautiful INTEGER, normal INTEGER, calm INTEGER, spacious INTEGER, bright INTEGER, opennes INTEGER, simpleness INTEGER, 
+                safe INTEGER, firstFloorUse INTEGER, prop1FloorWind INTEGER, pavementQuality INTEGER, scenery INTEGER, pavementContinuity INTEGER,
+                streetLink INTEGER, buildingScale INTEGER, propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER,
+                vivid INTEGER, damagedBuilding INTEGER, humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER,
+                smallPlant INTEGER, histBuildings INTEGER, contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER,
+                accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB)""")
+
+            connection.execute("CREATE TABLE USERS (Username TEXT PRIMARY KEY, Password TEXT)")
+
+            # Create first user
+            username = "admin"
+            password = hasher.hash("admin")
+
+            new_user = User(username, password)
+            self.addUser(new_user)
 
     def addEntry(self, newEntry):
         with dbapi2.connect(self.dbfile) as connection:

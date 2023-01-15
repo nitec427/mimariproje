@@ -36,7 +36,7 @@ def home_page():
         session['logged_in'] = True
         session['labeling_mode'] = request.form['image_classes']
 
-        return redirect('/imageshow/1/1')
+        return redirect(url_for('image_page', image_path=1, image_id=1))
 
 
 def logout():
@@ -47,7 +47,7 @@ def logout():
 def image_page(image_path, image_id):
 
     ### Prints ###
-    print(image_path, image_id)
+    print("Image path = ", image_path, "Image id : ", image_id)
     ### Prints ###
 
     path_dict = {
@@ -74,10 +74,11 @@ def handle_form():
         pos_samples_list = str(json.loads(positive_samples))
 
 
+
         ### Prints ###
-        print(neg_samples_list)
-        print(pos_samples_list)
-        print(session['username'])
+        print("neg samples : ", neg_samples_list)
+        print("pos samples : ", pos_samples_list)
+        print("User : ", session['username'])
         for item in form_data_list:
             print(item['name'], item['value'])
         ### Prints ###
@@ -100,9 +101,9 @@ def handle_form():
         db.addEntry(newEntry)
 
         ### Prints ###
-        print("go to next img")
+        print("End of handle form")
         ### Prints ###
 
-        return redirect('/imageshow/1/2')
+        return redirect(url_for('image_page', image_path=1, image_id=2))
 
 

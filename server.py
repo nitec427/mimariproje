@@ -1,7 +1,5 @@
 from flask import Flask
 from flask_login import LoginManager
-from passlib.hash import pbkdf2_sha256 as hasher
-import sqlite3 as dbapi2
 import os
 
 import views
@@ -45,28 +43,9 @@ def create_app():
     db = Database(os.path.join(home_dir, "archDB.db"))
     app.config["dbconfig"] = db
 
-    # CREATE Database if not exist
+    # CREATE Database if not exists
     if (os.path.exists('./archDB.db') == False):
-        con = dbapi2.connect("archDB.db")
-
-        con.execute(
-            """CREATE TABLE ENTRIES (ID INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, pleasant INTEGER, interesting INTEGER,
-            beautiful INTEGER, normal INTEGER, calm INTEGER, spacious INTEGER, bright INTEGER, opennes INTEGER, simpleness INTEGER, 
-            safe INTEGER, firstFloorUse INTEGER, prop1FloorWind INTEGER, pavementQuality INTEGER, scenery INTEGER, pavementContinuity INTEGER,
-            streetLink INTEGER, buildingScale INTEGER, propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER,
-            vivid INTEGER, damagedBuilding INTEGER, humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER,
-            smallPlant INTEGER, histBuildings INTEGER, contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER,
-            accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB)""")
-
-        con.execute("CREATE TABLE USERS (Username TEXT PRIMARY KEY, Password TEXT)")
-
-        # Create first user
-        username = "admin"
-        password = hasher.hash("admin")
-
-        new_user = User(username, password)
-        db.addUser(new_user)
-        con.close()
+        db.create()
 
     return app
 
