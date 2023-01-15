@@ -26,13 +26,14 @@ class Database:
             # Create entries table
             connection.execute(
                 """
-                CREATE TABLE ENTRIES (ID INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, Image_ID INTEGER, pleasant INTEGER, interesting INTEGER,
-                beautiful INTEGER, normal INTEGER, calm INTEGER, spacious INTEGER, bright INTEGER, opennes INTEGER, simpleness INTEGER, 
-                safe INTEGER, firstFloorUse INTEGER, prop1FloorWind INTEGER, pavementQuality INTEGER, scenery INTEGER, pavementContinuity INTEGER,
-                streetLink INTEGER, buildingScale INTEGER, propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER,
-                vivid INTEGER, damagedBuilding INTEGER, humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER,
-                smallPlant INTEGER, histBuildings INTEGER, contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER,
-                accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB,
+                CREATE TABLE ENTRIES (ID INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, Image_ID INTEGER, pleasant INTEGER,
+                interesting INTEGER, beautiful INTEGER, normal INTEGER, calm INTEGER, spacious INTEGER, bright INTEGER,
+                opennes INTEGER, simpleness INTEGER, safe INTEGER, walkability INTEGER, firstFloorUse INTEGER, prop1FloorWind INTEGER,
+                pavementQuality INTEGER, scenery INTEGER, pavementContinuity INTEGER, streetLink INTEGER, buildingScale INTEGER,
+                propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER, vivid INTEGER, damagedBuilding INTEGER,
+                humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER, smallPlant INTEGER, histBuildings INTEGER,
+                contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER, accentColor INTEGER, publicSpaceUsage INTEGER,
+                community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB,
                 FOREIGN KEY (Username) REFERENCES USERS(Username),
                 FOREIGN KEY (Image_ID) REFERENCES IMAGES(Image_ID))
                 """)
@@ -45,24 +46,32 @@ class Database:
             new_user = User(username, password)
             self.addUser(new_user)
 
+            # Add images
+            for i in range(1, 34):
+                path = "/static/images/unprocessed/ahlat/" + str(i) + ".jpeg"
+                self.addImage(image_id=i, image_path=path)
+
 
     def addEntry(self, newEntry):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = """INSERT INTO ENTRIES (Username, Image_ID, pleasant, interesting, beautiful, normal, calm, spacious, bright, opennes,
-            simpleness, safe, firstFloorUse, prop1FloorWind, pavementQuality, scenery, pavementContinuity, streetLink,
-            buildingScale, propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding, humanPopulation, carParking,
-            allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat, greenness, accentColor,
-            publicSpaceUsage, community, trafficVol, posSamples, negSamples)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+            query = """INSERT INTO ENTRIES (Username, Image_ID, pleasant, interesting, beautiful, normal, calm, spacious,
+            bright, opennes, simpleness, safe, walkability, firstFloorUse, prop1FloorWind, pavementQuality, scenery,
+            pavementContinuity, streetLink, buildingScale, propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding,
+            humanPopulation, carParking, allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat,
+            greenness, accentColor, publicSpaceUsage, community, trafficVol, posSamples, negSamples)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
-            cursor.execute(query, (newEntry.username, newEntry.image_id, newEntry.pleasant, newEntry.interesting, newEntry.beautiful, newEntry.normal, newEntry.calm,
-                                   newEntry.spacious, newEntry.bright, newEntry.opennes, newEntry.simpleness, newEntry.safe, newEntry.firstFloorUse,
-                                   newEntry.prop1FloorWind, newEntry.pavementQuality, newEntry.scenery, newEntry.pavementContinuity, newEntry.streetLink,
-                                   newEntry.buildingScale, newEntry.propStreetWall, newEntry.propSkyAcross, newEntry.streetWidth, newEntry.vivid,
-                                   newEntry.damagedBuilding, newEntry.humanPopulation, newEntry.carParking, newEntry.allStreetFurn, newEntry.smallPlant,
-                                   newEntry.histBuildings, newEntry.contemporaryBuildings, newEntry.urbanFeat, newEntry.greenness, newEntry.accentColor,
-                                   newEntry.publicSpaceUsage, newEntry.community, newEntry.trafficVol, newEntry.posSamples, newEntry.negSamples))
+            cursor.execute(query, (newEntry.username, newEntry.image_id, newEntry.pleasant, newEntry.interesting, newEntry.beautiful,
+                                   newEntry.normal, newEntry.calm, newEntry.spacious, newEntry.bright, newEntry.opennes,
+                                   newEntry.simpleness, newEntry.safe, newEntry.walkability, newEntry.firstFloorUse,
+                                   newEntry.prop1FloorWind, newEntry.pavementQuality, newEntry.scenery, newEntry.pavementContinuity,
+                                   newEntry.streetLink, newEntry.buildingScale, newEntry.propStreetWall, newEntry.propSkyAcross,
+                                   newEntry.streetWidth, newEntry.vivid, newEntry.damagedBuilding, newEntry.humanPopulation,
+                                   newEntry.carParking, newEntry.allStreetFurn, newEntry.smallPlant, newEntry.histBuildings,
+                                   newEntry.contemporaryBuildings, newEntry.urbanFeat, newEntry.greenness, newEntry.accentColor,
+                                   newEntry.publicSpaceUsage, newEntry.community, newEntry.trafficVol, newEntry.posSamples,
+                                   newEntry.negSamples))
             cursor.close()
 
 
@@ -95,12 +104,13 @@ class Database:
             query = """
             SELECT Image_ID FROM ENTRIES
             WHERE Username = ?
-            ORDER BY Image_ID ASC
+            ORDER BY Image_ID DESC
             LIMIT 1;
             """
 
             cursor.execute(query, (username,))
             next_image_id = cursor.fetchone()
+            cursor.close()
 
             if next_image_id == None:
                 return 1
@@ -121,4 +131,17 @@ class Database:
 
             image_path = cursor.fetchone()[0]
 
+            cursor.close()
+
             return image_path
+
+    def addImage(self, image_id, image_path):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = """INSERT INTO IMAGES (Image_ID, Image_Path)
+            VALUES (?,?);"""
+
+            cursor.execute(query, (image_id, image_path))
+
+            cursor.close()
+

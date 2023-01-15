@@ -1,8 +1,8 @@
 class Entry:
-    def __init__(self, username, image_id, pleasant, interesting, beautiful, normal, calm, spacious, bright, opennes, simpleness, safe,
-                 firstFloorUse, prop1FloorWind, pavementQuality, scenery, pavementContinuity, streetLink, buildingScale,
-                 propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding, humanPopulation, carParking,
-                 allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat, greenness, accentColor,
+    def __init__(self, username, image_id, pleasant, interesting, beautiful, normal, calm, spacious, bright, opennes,
+                 simpleness, safe, walkability, firstFloorUse, prop1FloorWind, pavementQuality, scenery, pavementContinuity,
+                 streetLink, buildingScale, propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding, humanPopulation,
+                 carParking, allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat, greenness, accentColor,
                  publicSpaceUsage, community, trafficVol, posSamples, negSamples):
         self.username = username
         self.image_id = image_id
@@ -16,6 +16,7 @@ class Entry:
         self.opennes = opennes
         self.simpleness = simpleness
         self.safe = safe
+        self.walkability = walkability
 
         self.firstFloorUse = firstFloorUse
         self.prop1FloorWind = prop1FloorWind

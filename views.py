@@ -96,20 +96,22 @@ def handle_form():
         # TODO:
         # Image_ID (ya da image path) yeni Entry oluştururken gerekecek, sayfadan çekilmeli (image path çekilirse
         # database'den id alınabilir ama id'yi direkt çekmek daha efektif)
-        # Image id'yi şimdilik ilk örnek için 0 olarak yazdım ama formdan çekildiği hali yazılmalı
+        # Image id'yi şimdilik ilk örnek için 1 olarak yazdım ama formdan çekildiği hali yazılmalı. 1 olduğu için submitleyip
+        # logout yapıp tekrar login olduğunda hep 2. resmi gösteriyor (çünkü submit edilen tüm formlarda image idyi 1 olarak
+        # gönderdik.)
         newEntry = Entry(username=session['username'], image_id=1, pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
                          beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'], calm=form_data_list[4]['value'],
                          spacious=form_data_list[5]['value'], bright=form_data_list[6]['value'], opennes=form_data_list[7]['value'],
-                         simpleness=form_data_list[8]['value'], safe=form_data_list[9]['value'], firstFloorUse=form_data_list[10]['value'],
-                         prop1FloorWind=form_data_list[11]['value'], pavementQuality=form_data_list[12]['value'], scenery=form_data_list[13]['value'],
-                         pavementContinuity=form_data_list[14]['value'], streetLink=form_data_list[15]['value'], buildingScale=form_data_list[16]['value'],
-                         propStreetWall=form_data_list[17]['value'], propSkyAcross=form_data_list[18]['value'], streetWidth=form_data_list[19]['value'],
-                         vivid=form_data_list[20]['value'], damagedBuilding=form_data_list[21]['value'], humanPopulation=form_data_list[22]['value'],
-                         carParking=form_data_list[23]['value'], allStreetFurn=form_data_list[24]['value'], smallPlant=form_data_list[25]['value'],
-                         histBuildings=form_data_list[26]['value'], contemporaryBuildings=form_data_list[27]['value'], urbanFeat=form_data_list[28]['value'],
-                         greenness=form_data_list[29]['value'], accentColor=form_data_list[30]['value'], publicSpaceUsage=form_data_list[31]['value'],
-                         community=form_data_list[32]['value'], trafficVol=form_data_list[33]['value'], posSamples=pos_samples_list,
-                         negSamples=neg_samples_list)
+                         simpleness=form_data_list[8]['value'], safe=form_data_list[9]['value'], walkability=form_data_list[10]['value'],
+                         firstFloorUse=form_data_list[11]['value'], prop1FloorWind=form_data_list[12]['value'], pavementQuality=form_data_list[13]['value'],
+                         scenery=form_data_list[14]['value'], pavementContinuity=form_data_list[15]['value'], streetLink=form_data_list[16]['value'],
+                         buildingScale=form_data_list[17]['value'], propStreetWall=form_data_list[18]['value'], propSkyAcross=form_data_list[19]['value'],
+                         streetWidth=form_data_list[20]['value'], vivid=form_data_list[21]['value'], damagedBuilding=form_data_list[22]['value'],
+                         humanPopulation=form_data_list[23]['value'], carParking=form_data_list[24]['value'], allStreetFurn=form_data_list[25]['value'],
+                         smallPlant=form_data_list[26]['value'], histBuildings=form_data_list[27]['value'], contemporaryBuildings=form_data_list[28]['value'],
+                         urbanFeat=form_data_list[29]['value'], greenness=form_data_list[30]['value'], accentColor=form_data_list[31]['value'],
+                         publicSpaceUsage=form_data_list[32]['value'], community=form_data_list[33]['value'], trafficVol=form_data_list[34]['value'],
+                         posSamples=pos_samples_list, negSamples=neg_samples_list)
 
         db.addEntry(newEntry)
 
