@@ -30,7 +30,7 @@ def home_page():
         elif not hasher.verify(request.form['password'], db.getPassword(request.form['username'])):
             return "Wrong password"
 
-
+        print("Login olundu")
         session['username'] = request.form['username']
         session['password'] = request.form['password']
         session['logged_in'] = True
@@ -57,6 +57,7 @@ def image_page(image_id):
     print("Image path = ", image_path, "Image id : ", image_id)
     ### Prints ###
 
+    """
     path_dict = {
         1: "ahlat",
         2: 'foca',
@@ -64,6 +65,7 @@ def image_page(image_id):
         4: 'gokceada',
     }
     place = path_dict[image_path]
+    """
 
     # Image path olarak db'den çağırdığım image pathi gönderdim
     # TODO:

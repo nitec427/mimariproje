@@ -100,8 +100,13 @@ class Database:
             """
 
             cursor.execute(query, (username,))
+            next_image_id = cursor.fetchone()
 
-            next_image_id = (cursor.fetchone()[0]) + 1
+            if next_image_id == None:
+                return 1
+
+            else:
+                return next_image_id[0] + 1
 
             return next_image_id
 
