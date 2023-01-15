@@ -33,7 +33,7 @@ def create_app():
 
     app.add_url_rule('/', methods=['GET', 'POST'], view_func=views.home_page)
     app.add_url_rule('/logout', view_func=views.logout)
-    app.add_url_rule('/imageshow/<int:image_path>/<int:image_id>', methods=['GET', 'POST'], view_func=views.image_page)
+    app.add_url_rule('/imageshow/<int:image_id>', methods=['GET', 'POST'], view_func=views.image_page)
     app.add_url_rule('/postmethod', methods=['POST'], view_func=views.handle_form)
 
     lm.init_app(app)

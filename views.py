@@ -36,7 +36,10 @@ def home_page():
         session['logged_in'] = True
         session['labeling_mode'] = request.form['image_classes']
 
-        return redirect(url_for('image_page', image_path=1, image_id=1))
+        # Kullanıcının son labelladığı imagedan bir sonrakini göstereceğiz:
+        image_id = db.getNextImage(session['username'])
+
+        return redirect(url_for('image_page', image_id=1))
 
 
 def logout():
@@ -44,7 +47,11 @@ def logout():
     return redirect(url_for('home_page'))
 
 
-def image_page(image_path, image_id):
+def image_page(image_id):
+    db = current_app.config["dbconfig"]
+
+    # Image id'ye göre path bulunuyor
+    image_path = db.getImagePath(image_id)
 
     ### Prints ###
     print("Image path = ", image_path, "Image id : ", image_id)
@@ -58,13 +65,17 @@ def image_page(image_path, image_id):
     }
     place = path_dict[image_path]
 
-    return render_template('image_page.html', image_path=place, image_id=image_id, range_questions=range_questions,
+    # Image path olarak db'den çağırdığım image pathi gönderdim
+    # TODO:
+    # HTML'de image pathin yazıldığı yer düzeltilmeli
+    return render_template('image_page.html', image_path=image_path, image_id=image_id, range_questions=range_questions,
                            questions_multiple_answers=list(questions_multiple_answers.values()), negatives=negative_tags,
                            positives=positive_tags, color_theme="light", color_theme2="dark")
 
 
 def handle_form():
     db = current_app.config["dbconfig"]
+
     if request.method == 'POST':
         jsdata = request.form['jsdata']
         negative_samples = request.form['negative_samples']
@@ -72,8 +83,6 @@ def handle_form():
         form_data_list = json.loads(jsdata)
         neg_samples_list = str(json.loads(negative_samples))
         pos_samples_list = str(json.loads(positive_samples))
-
-
 
         ### Prints ###
         print("neg samples : ", neg_samples_list)
@@ -83,8 +92,11 @@ def handle_form():
             print(item['name'], item['value'])
         ### Prints ###
 
-        # create also user id
-        newEntry = Entry(username=session['username'], pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
+
+        # TODO:
+        # Image_ID (ya da image path) yeni Entry oluştururken gerekecek, sayfadan çekilmeli (image path çekilirse
+        # database'den id alınabilir ama id'yi direkt çekmek daha efektif)
+        newEntry = Entry(username=session['username'], image_id="?????", pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
                          beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'], calm=form_data_list[4]['value'],
                          spacious=form_data_list[5]['value'], bright=form_data_list[6]['value'], opennes=form_data_list[7]['value'],
                          simpleness=form_data_list[8]['value'], safe=form_data_list[9]['value'], firstFloorUse=form_data_list[10]['value'],
@@ -104,6 +116,9 @@ def handle_form():
         print("End of handle form")
         ### Prints ###
 
-        return redirect(url_for('image_page', image_path=1, image_id=2))
+
+        # TODO:
+        # yeni resmin id'si için formdan image id çekilip 1 eklenip redirect yapılmalı
+        return redirect(url_for('image_page', image_id=2))
 
 
