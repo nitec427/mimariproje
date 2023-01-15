@@ -96,9 +96,9 @@ def handle_form():
 
         # TODO:
         # Image_ID ENTRY tablosuna entry eklerken gerekecek, sayfadan çekilmeli
-        # Image id'yi şimdilik ilk örnek için 1 olarak yazdım ama formdan çekildiği hali yazılmalı. 1 olduğu için submitleyip
-        # logout yapıp tekrar login olduğunda hep 2. resmi gösteriyor (çünkü submit edilen tüm formlarda image idyi 1 olarak
-        # gönderdik, bir sonraki resmin id'si hep 2 oluyor)
+        # Image id'yi şimdilik ilk örnek için 1 olarak yazdım ama formdan çekildiği hali yazılmalı. 1 olduğu için
+        # submitleyip logout yapıp tekrar login olduğunda hep 2. resmi gösteriyor (çünkü submit edilen tüm formlarda
+        # image idyi 1 olarak gönderdik, bir sonraki resmin id'si hep 2 oluyor)
         newEntry = Entry(username=session['username'], image_id=1, pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
                          beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'], calm=form_data_list[4]['value'],
                          spacious=form_data_list[5]['value'], bright=form_data_list[6]['value'], opennes=form_data_list[7]['value'],
@@ -123,6 +123,6 @@ def handle_form():
         # TODO:
         # yeni resmin id'si için formdan image id çekilip 1 eklenip aşağıda gönderilmeli. image id çekilmediği için örnek
         # olarak 5 gönderdim.
-        return redirect(url_for('image_page', image_id=5))
+        # return redirect(url_for('image_page', image_id=5))
 
 
