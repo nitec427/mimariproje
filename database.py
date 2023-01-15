@@ -32,15 +32,9 @@ class Database:
                 streetLink INTEGER, buildingScale INTEGER, propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER,
                 vivid INTEGER, damagedBuilding INTEGER, humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER,
                 smallPlant INTEGER, histBuildings INTEGER, contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER,
-                accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB)
-                
-                CONSTRAINT fk_users
-                FOREIGN KEY (Username)
-                REFERENCES USERS(Username)
-                
-                CONSTRAINT fk_images
-                FOREIGN KEY (Image_ID)  
-                REFERENCES IMAGES(Image_ID)
+                accentColor INTEGER, publicSpaceUsage INTEGER, community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB,
+                FOREIGN KEY (Username) REFERENCES USERS(Username),
+                FOREIGN KEY (Image_ID) REFERENCES IMAGES(Image_ID))
                 """)
 
 
