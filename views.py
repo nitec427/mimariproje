@@ -39,7 +39,7 @@ def home_page():
         # Kullanıcının son labelladığı imagedan bir sonrakini göstereceğiz:
         image_id = db.getNextImage(session['username'])
 
-        return redirect(url_for('image_page', image_id=1))
+        return redirect(url_for('image_page', image_id=image_id))
 
 
 def logout():
@@ -68,8 +68,6 @@ def image_page(image_id):
     """
 
     # Image path olarak db'den çağırdığım image pathi gönderdim
-    # TODO:
-    # HTML'de image pathin yazıldığı yer düzeltilmeli
     return render_template('image_page.html', image_path=image_path, image_id=image_id, range_questions=range_questions,
                            questions_multiple_answers=list(questions_multiple_answers.values()), negatives=negative_tags,
                            positives=positive_tags, color_theme="light", color_theme2="dark")
@@ -98,7 +96,8 @@ def handle_form():
         # TODO:
         # Image_ID (ya da image path) yeni Entry oluştururken gerekecek, sayfadan çekilmeli (image path çekilirse
         # database'den id alınabilir ama id'yi direkt çekmek daha efektif)
-        newEntry = Entry(username=session['username'], image_id="?????", pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
+        # Image id'yi şimdilik ilk örnek için 0 olarak yazdım ama formdan çekildiği hali yazılmalı
+        newEntry = Entry(username=session['username'], image_id=1, pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
                          beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'], calm=form_data_list[4]['value'],
                          spacious=form_data_list[5]['value'], bright=form_data_list[6]['value'], opennes=form_data_list[7]['value'],
                          simpleness=form_data_list[8]['value'], safe=form_data_list[9]['value'], firstFloorUse=form_data_list[10]['value'],

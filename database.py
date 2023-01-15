@@ -106,7 +106,7 @@ class Database:
                 return 1
 
             else:
-                return next_image_id[0] + 1
+                return int(next_image_id[0]) + 1
 
             return next_image_id
 
