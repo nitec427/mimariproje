@@ -43,7 +43,7 @@ def create_app():
     db = Database(os.path.join(home_dir, "archDB.db"))
     app.config["dbconfig"] = db
 
-    # CREATE Database if not exists
+    # Create database if not exists
     if (os.path.exists('./archDB.db') == False):
         db.create()
 

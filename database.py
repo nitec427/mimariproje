@@ -11,10 +11,6 @@ class Database:
     def create(self):
         with dbapi2.connect(self.dbfile) as connection:
 
-            # TODO:
-            # Image_ID text mi olacak integer mı? ID nasıl oluşturulacak? Ya da id'ye gerek var mı sadece path tutulabilir mi?
-            # (Entries table'ında foreign key olarak ne tutulacak?)
-
             # Create users table
             connection.execute("CREATE TABLE USERS (Username TEXT PRIMARY KEY, Password TEXT)")
 
@@ -39,14 +35,14 @@ class Database:
                 """)
 
 
-            # Create first user
+            # Create admin
             username = "admin"
             password = hasher.hash("admin")
 
             new_user = User(username, password)
             self.addUser(new_user)
 
-            # Add images
+            # Ahlat fotolarını manuel olarak ekliyorum database'e (1-33)
             for i in range(1, 34):
                 path = "/static/images/unprocessed/ahlat/" + str(i) + ".jpeg"
                 self.addImage(image_id=i, image_path=path)
@@ -97,7 +93,7 @@ class Database:
             return password
 
 
-    # User sisteme tekrar giriş yaptığında kaldığı yerden devam edebilmesi için
+    # Kullanıcı sisteme tekrar giriş yaptığında kaldığı yerden devam edebilmesi için bi sonraki resmin id'sini alır
     def getNextImage(self, username):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()

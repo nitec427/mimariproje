@@ -36,7 +36,7 @@ def home_page():
         session['logged_in'] = True
         session['labeling_mode'] = request.form['image_classes']
 
-        # Kullanıcının son labelladığı imagedan bir sonrakini göstereceğiz:
+        # Kullanıcının son labelladığı resimden bir sonrakini göstereceğiz:
         image_id = db.getNextImage(session['username'])
 
         return redirect(url_for('image_page', image_id=image_id))
@@ -50,7 +50,7 @@ def logout():
 def image_page(image_id):
     db = current_app.config["dbconfig"]
 
-    # Image id'ye göre path bulunuyor
+    # Image id'ye göre database'den path bulunuyor
     image_path = db.getImagePath(image_id)
 
     ### Prints ###
@@ -58,6 +58,7 @@ def image_page(image_id):
     ### Prints ###
 
     """
+    # Bu kısmı şimdilik commentledim farklı bir sistem kullandığımız için
     path_dict = {
         1: "ahlat",
         2: 'foca',
@@ -68,7 +69,7 @@ def image_page(image_id):
     """
 
     # Image path olarak db'den çağırdığım image pathi gönderdim
-    return render_template('image_page.html', image_path=image_path, image_id=image_id, range_questions=range_questions,
+    return render_template("image_page.html", image_path=image_path, image_id=image_id, range_questions=range_questions,
                            questions_multiple_answers=list(questions_multiple_answers.values()), negatives=negative_tags,
                            positives=positive_tags, color_theme="light", color_theme2="dark")
 
@@ -94,11 +95,10 @@ def handle_form():
 
 
         # TODO:
-        # Image_ID (ya da image path) yeni Entry oluştururken gerekecek, sayfadan çekilmeli (image path çekilirse
-        # database'den id alınabilir ama id'yi direkt çekmek daha efektif)
+        # Image_ID ENTRY tablosuna entry eklerken gerekecek, sayfadan çekilmeli
         # Image id'yi şimdilik ilk örnek için 1 olarak yazdım ama formdan çekildiği hali yazılmalı. 1 olduğu için submitleyip
         # logout yapıp tekrar login olduğunda hep 2. resmi gösteriyor (çünkü submit edilen tüm formlarda image idyi 1 olarak
-        # gönderdik.)
+        # gönderdik, bir sonraki resmin id'si hep 2 oluyor)
         newEntry = Entry(username=session['username'], image_id=1, pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
                          beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'], calm=form_data_list[4]['value'],
                          spacious=form_data_list[5]['value'], bright=form_data_list[6]['value'], opennes=form_data_list[7]['value'],
@@ -121,7 +121,8 @@ def handle_form():
 
 
         # TODO:
-        # yeni resmin id'si için formdan image id çekilip 1 eklenip redirect yapılmalı
-        return redirect(url_for('image_page', image_id=2))
+        # yeni resmin id'si için formdan image id çekilip 1 eklenip aşağıda gönderilmeli. image id çekilmediği için örnek
+        # olarak 5 gönderdim.
+        return redirect(url_for('image_page', image_id=5))
 
 
