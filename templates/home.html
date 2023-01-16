@@ -30,10 +30,8 @@
         <div id="password_help" class="form-text">Please enter your password</div>
       </div>
       <button type="submit" class="btn btn-primary">Login</button>
+      <a href="{{url_for('register_user')}}" class="btn btn-secondary">Go to Register Page</a>
       <p> </p>
-    </form>
-    <form action="/register" method="GET">
-      <button type="submit" class="btn btn-secondary">Go to Register Page</button>
     </form>
     <div class="alert alert-danger mt-5" role="alert">
       Unless you answer all the questions your data will not be saved. Be aware of.
