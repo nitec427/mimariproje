@@ -1,7 +1,10 @@
 from flask import Flask
 from flask_login import LoginManager
 import os
-
+# To-Do
+# Türkçe İngilizce seçeneği koy.
+# Other seçeneğini ekle
+# itu mimari proje
 import views
 from database import Database
 from login_management import get_user, User

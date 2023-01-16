@@ -270,11 +270,12 @@ buttonPrev.addEventListener("click", (e) => {
 // JQuery Code
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
-  // if (counter != 24) {
-  //   alert("Please fill in all the fields.");
-  //   // go to next page
-  //   return;
-  // }
+  if (counter != 24) {
+    alert("Please fill in all the fields.");
+    // go to next page
+    return;
+  }
+  alert("Etiketleme işlemi tamamlandı.");
   let fields = $(":input").serializeArray();
   fields.positive_samples = positive_samples;
   fields.negative_samples = negative_samples;
