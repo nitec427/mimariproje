@@ -29,19 +29,11 @@
         <input type="password" id="password" placeholder="Please enter your password" name="password" class="form-control" aria-describedby="password_field">
         <div id="password_help" class="form-text">Please enter your password</div>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Login</button>
       <p> </p>
-
-      <input type="radio" class="btn-check" name="image_classes" id="unlabeled" autocomplete="off" value="Unlabeled" checked>
-      <label class="btn btn btn-outline-dark" for="unlabeled">Only unlabeled images</label>
-
-      <input type="radio" class="btn-check" name="image_classes" id="labeled" autocomplete="off" value="Labeled">
-      <label class="btn btn btn-outline-dark" for="labeled">Only images labeled by me</label>
-
-
-      <input type="radio" class="btn-check" name="image_classes" id="all" autocomplete="off" value="All">
-      <label class="btn btn btn-outline-dark" for="all">Show all images</label>
-
+    </form>
+    <form action="/register" method="GET">
+      <button type="submit" class="btn btn-secondary">Go to Register Page</button>
     </form>
     <div class="alert alert-danger mt-5" role="alert">
       Unless you answer all the questions your data will not be saved. Be aware of.

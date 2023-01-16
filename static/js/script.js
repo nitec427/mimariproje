@@ -6,7 +6,11 @@ const button4 = document.querySelector("#btn4");
 const button5 = document.querySelector("#btn5");
 const button6 = document.querySelector("#btn6");
 const button7 = document.querySelector("#btn7");
-// const button8 = document.querySelector("#btn8");
+const canvasItem = document.querySelector("#canvas");
+const get_p = document.querySelector("#get_id");
+const limit = document.querySelector("#get_limit").textContent;
+console.log(limit);
+const current_id = get_p.textContent;
 const buttonNext = document.querySelector("#btnNext");
 const buttonPrev = document.querySelector("#btnPrev");
 const submitButton = document.querySelector("#submit");
@@ -14,8 +18,6 @@ const showAllSamples = document.querySelector("#showall");
 let counter = 0;
 let poly_counter = 0;
 let label = "";
-// TO-DO: Send also tag information
-//
 const allDivs = document.querySelectorAll("div.d-flex.justify-content-evenly");
 const negativeTagsRadios = document
   .querySelectorAll("div.row.align-items-center.mt-5.justify-content-center")[0]
@@ -268,19 +270,30 @@ buttonPrev.addEventListener("click", (e) => {
 // JQuery Code
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
-  if (counter != 24) {
-    alert("Please fill in all the fields.");
-    // go to next page
-    return;
-  }
+  // if (counter != 24) {
+  //   alert("Please fill in all the fields.");
+  //   // go to next page
+  //   return;
+  // }
   let fields = $(":input").serializeArray();
   fields.positive_samples = positive_samples;
   fields.negative_samples = negative_samples;
-  $.post("/postmethod", {
-    jsdata: JSON.stringify(fields),
-    negative_samples: JSON.stringify(negative_samples),
-    positive_samples: JSON.stringify(positive_samples),
-  });
+  $.post(
+    "/postmethod",
+    {
+      jsdata: JSON.stringify(fields),
+      negative_samples: JSON.stringify(negative_samples),
+      positive_samples: JSON.stringify(positive_samples),
+      image_id: current_id,
+    },
+    function (data) {
+      if (current_id == limit) {
+        window.location.href = `/thankyou`;
+        return;
+      }
+      window.location.href = `/imageshow/${+current_id + 1}`;
+    }
+  );
 });
 var canvas = document.getElementById("canvas");
 let context = canvas.getContext("2d");
@@ -398,10 +411,6 @@ $("#negatives").click(function (e) {
     radioButton.checked = false;
   });
   coordinates.push({ label: label });
-  // To-Do: Send which item is clicked for both negative and positive
-  // Move walkability part to the first page, add database entry
-  // Configure database and add the data to the database
-  // User credentials and all images are needed
   negative_tag_counter = 0;
   negative_samples.push(coordinates);
   coordinates = [];

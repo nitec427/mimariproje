@@ -19,7 +19,8 @@ import typing
 from unidecode import unidecode
 path_type = typing.Union[str, pathlib.Path]
 
-def read_files(directory: path_type ):
+
+def read_files(directory: path_type):
     """
     Parameters
     ----------
@@ -29,17 +30,21 @@ def read_files(directory: path_type ):
     file_count (int): Return the number of files in all of the subdirectories
     imgs_path (List[str]): Return path for all files that are relevant
     """
-    directory = os.path.join("static","images",directory)
+    directory = os.path.join("static", "images", directory)
     file_count = 0
     imgs_path = []
     for root, directories, files in os.walk(directory):
-        file_count+= len(files)
+        file_count += len(files)
         for dir in directories:
             # if the folders are uppercase turn them into lowercase and make them English compliant
-            os.rename(os.path.join(root, dir), os.path.join(root, unidecode(dir.lower())))
+            os.rename(os.path.join(root, dir), os.path.join(
+                root, unidecode(dir.lower())))
         for name in sorted(files):
             imgs_path.append(os.path.join(root, name))
-        
+
+    for i in range(len(imgs_path)):
+        imgs_path[i] = imgs_path[i].replace("\\", "/")
     return file_count, imgs_path
+
 
 _, paths = read_files('unprocessed')
