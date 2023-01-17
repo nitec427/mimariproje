@@ -3,24 +3,15 @@ from flask_login import LoginManager
 import os
 # To-Do
 # Türkçe İngilizce seçeneği koy.
-# Other seçeneğini ekle
-# itu mimari proje
+# Other seçeneğini ekle (Other seçeneği seçildiğinde bir input alanı açılacak)
+# not walkableı kaldır
+# tag page 7 olacak
+# ilk sayfadaki yazı büyüyecek
+# 
 import views
 from database import Database
 from login_management import get_user, User
 from helpers import read_img_files
-
-# İstenen şeyler
-
-# Back-endde tutulacak kullanıcıların username ve passwordları
-# Kullanıcıya güncelleme seçeneği koyulmadı.
-
-
-# TODO:
-# Read unprocessed images only
-# Resimler işlendiğinde unprocessed kısmından kaldırma çünkü serverde tek bir klassörde tutuluyor. (Bunu yapmak için
-# database'de bir column daha olabilir. (Image id, user id combined. Böylelikle sürekli kontrol edip eğer kullanıcı
-# işlemişe labeled kısmında gösterebilirim.))#
 
 lm = LoginManager()
 
@@ -37,7 +28,7 @@ def create_app():
 
     app.add_url_rule('/', methods=['GET', 'POST'], view_func=views.home_page)
     app.add_url_rule('/logout', view_func=views.logout)
-    app.add_url_rule('/imageshow/<int:image_id>',
+    app.add_url_rule('/imageshow/<int:image_id>/<string:language>',
                      methods=['GET', 'POST'], view_func=views.image_page)
     app.add_url_rule(
         '/postmethod', methods=['POST'], view_func=views.handle_form)

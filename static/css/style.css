@@ -10,6 +10,9 @@ body{
 h1 {
   color: rgb(214, 65, 6);
 }
+.big-text{
+  font-size: 1.2rem;
+}
 /* All design is done in BootStrap */
 .navbar{
   padding: 2rem;

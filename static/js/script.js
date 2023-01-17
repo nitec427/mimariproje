@@ -9,7 +9,9 @@ const button7 = document.querySelector("#btn7");
 const canvasItem = document.querySelector("#canvas");
 const get_p = document.querySelector("#get_id");
 const limit = document.querySelector("#get_limit").textContent;
+const lang = document.querySelector("#get_lang").textContent;
 console.log(limit);
+console.log(lang);
 const current_id = get_p.textContent;
 const buttonNext = document.querySelector("#btnNext");
 const buttonPrev = document.querySelector("#btnPrev");
@@ -271,11 +273,13 @@ buttonPrev.addEventListener("click", (e) => {
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
   if (counter != 24) {
-    alert("Please fill in all the fields.");
+    if (lang == "en") alert("Please fill in all the fields.");
+    else alert("Lütfen tüm alanları doldurun.");
     // go to next page
     return;
   }
-  alert("Etiketleme işlemi tamamlandı.");
+  if (lang == "en") alert("Your data is saved. Thank you.");
+  else alert("Etiketleme işlemi tamamlandı");
   let fields = $(":input").serializeArray();
   fields.positive_samples = positive_samples;
   fields.negative_samples = negative_samples;
@@ -292,7 +296,7 @@ submitButton.addEventListener("click", (e) => {
         window.location.href = `/thankyou`;
         return;
       }
-      window.location.href = `/imageshow/${+current_id + 1}`;
+      window.location.href = `/imageshow/${+current_id + 1}/${lang}`;
     }
   );
 });
@@ -321,17 +325,21 @@ let coordinates = [];
 $("#positives").click(function (e) {
   e.preventDefault();
   if (poly_counter == 0) {
-    alert("Please draw a polygon first.");
+    if (lang == "en") alert("Please draw a polygon first.");
+    else alert("Lütfen önce bir şekil çizin.");
     return;
   }
   if (positive_tag_counter == 0) {
-    alert("Please select a positive tag first.");
+    if (lang == "en") alert("Please select a positive tag first.");
+    else alert("Lütfen önce pozitif bir etiket seçin.");
+
     return;
   }
   positiveTagsRadios.forEach((radioButton) => {
     radioButton.checked = false;
   });
-  alert("Positive sample added.");
+  if (lang == "en") alert("Positive sample added.");
+  else alert("Pozitif örnek eklendi.");
   positive_tag_counter = 0;
   coordinates.push({ label: label });
   positive_samples.push(coordinates);
@@ -401,11 +409,13 @@ $("#showall").click(function (e) {
 $("#negatives").click(function (e) {
   e.preventDefault();
   if (poly_counter == 0) {
-    alert("Please draw a polygon first.");
+    if (lang == "en") alert("Please draw a polygon first.");
+    else alert("Lütfen önce bir şekil çizin.");
     return;
   }
   if (negative_tag_counter == 0) {
-    alert("Please select a negative tag first.");
+    if (lang == "en") alert("Please select a negative tag first.");
+    else alert("Lütfen önce negatif bir etiket seçin.");
     return;
   }
   negativeTagsRadios.forEach((radioButton) => {
@@ -449,7 +459,8 @@ $("#negatives").click(function (e) {
 $("#clear").click(function (e) {
   e.preventDefault();
   if (poly_counter == 0) {
-    alert("Please draw a polygon first.");
+    if (lang == "en") alert("Please draw a polygon first.");
+    else alert("Temizlemek için önce bir şekil çizmeniz gerekiyor.");
     return;
   }
   poly_counter = 0;

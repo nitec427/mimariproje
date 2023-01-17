@@ -29,6 +29,11 @@
         <input type="password" id="password" placeholder="Please enter your password" name="password" class="form-control" aria-describedby="password_field">
         <div id="password_help" class="form-text">Please enter your password</div>
       </div>
+      <!-- add radio button with the name language -->
+      <input type="radio" name="language" id="tr" value="tr">
+      <label for="tr">Turkish</label><br>
+      <input type="radio" name="language" id="en" value="en">
+      <label for="en">English</label><br>
       <button type="submit" class="btn btn-primary">Login</button>
       <a href="{{url_for('register_user')}}" class="btn btn-secondary">Go to Register Page</a>
       <p> </p>
