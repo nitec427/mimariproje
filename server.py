@@ -7,7 +7,7 @@ import os
 # not walkableı kaldır
 # tag page 7 olacak
 # ilk sayfadaki yazı büyüyecek
-# 
+#
 import views
 from database import Database
 from login_management import get_user, User
