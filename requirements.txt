@@ -31,7 +31,6 @@ pure-eval==0.2.2
 Pygments==2.11.2
 python-dateutil==2.8.2
 python-dotenv==0.21.0
-pywin32==303
 pyzmq==22.3.0
 SQLAlchemy==1.4.44
 sqlparse==0.4.2
