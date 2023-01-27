@@ -22,8 +22,6 @@ def load_user(user_id):
 
 
 def create_app():
-
-    server = app.server
     app.config.from_object("settings")
     app.config['SECRET_KEY'] = 'mimari-proje'
 
