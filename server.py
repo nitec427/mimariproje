@@ -12,7 +12,7 @@ import views
 from database import Database
 from login_management import get_user, User
 from helpers import read_img_files
-
+app = Flask(__name__)
 lm = LoginManager()
 
 
@@ -22,7 +22,7 @@ def load_user(user_id):
 
 
 def create_app():
-    app = Flask(__name__)
+
     server = app.server
     app.config.from_object("settings")
     app.config['SECRET_KEY'] = 'mimari-proje'
