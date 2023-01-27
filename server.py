@@ -23,6 +23,7 @@ def load_user(user_id):
 
 def create_app():
     app = Flask(__name__)
+    server = app.server
     app.config.from_object("settings")
     app.config['SECRET_KEY'] = 'mimari-proje'
 
