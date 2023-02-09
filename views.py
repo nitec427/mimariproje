@@ -10,7 +10,7 @@ from helpers import read_img_files
 def home_page():
     db = current_app.config["dbconfig"]
     session.clear()
-    
+
     if "newsession" not in session:
         session['newsession'] = True
         session['password'] = ""
@@ -33,12 +33,12 @@ def home_page():
 
         session['username'] = request.form['username']
         session['password'] = request.form['password']
-        
+
         session['logged_in'] = True
 
         # Kullanıcının son labelladığı resimden bir sonrakini göstereceğiz:
         image_id = db.getNextImage(session['username'])
-        return redirect(url_for('image_page', image_id=image_id, language = request.form['language']))
+        return redirect(url_for('image_page', image_id=image_id, language=request.form['language']))
 
 
 def thankyou():
@@ -55,12 +55,14 @@ def image_page(image_id, language):
     db = current_app.config["dbconfig"]
 
     limit = read_img_files.read_files("unprocessed")[0]
-    if image_id > limit:
+    if image_id == None:
         return redirect(url_for('thankyou'))
     # Image id'ye göre database'den path bulunuyor
     image_path = db.getImagePath(image_id)
-    return render_template("image_page.html", image_path=image_path, image_id=image_id, lang=language, limit=limit, range_questions=range_questions,
-                           questions_multiple_answers=list(questions_multiple_answers.values()), negatives=negative_tags,
+    return render_template("image_page.html", image_path=image_path, image_id=image_id, lang=language, limit=limit,
+                           range_questions=range_questions,
+                           questions_multiple_answers=list(questions_multiple_answers.values()),
+                           negatives=negative_tags,
                            positives=positive_tags, color_theme="light", color_theme2="dark")
 
 
@@ -97,29 +99,35 @@ def handle_form():
         print("User : ", session['username'])
         for item in form_data_list:
             print(item['name'], item['value'])
-        newEntry = Entry(username=session['username'], image_id=image_id, pleasant=form_data_list[0]['value'], interesting=form_data_list[1]['value'],
-                         beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'], calm=form_data_list[4]['value'],
+        newEntry = Entry(username=session['username'], image_id=image_id, pleasant=form_data_list[0]['value'],
+                         interesting=form_data_list[1]['value'],
+                         beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'],
+                         calm=form_data_list[4]['value'],
                          spacious=form_data_list[5]['value'], bright=form_data_list[
-            6]['value'], opennes=form_data_list[7]['value'],
-            simpleness=form_data_list[8]['value'], safe=form_data_list[
-            9]['value'], firstFloorUse=form_data_list[10]['value'], prop1FloorWind=form_data_list[
-11]['value'], pavementQuality=form_data_list[12]['value'],
-scenery=form_data_list[13]['value'], pavementContinuity=form_data_list[
-14]['value'], streetLink=form_data_list[15]['value'],
-buildingScale=form_data_list[16]['value'], propStreetWall=form_data_list[
-17]['value'], propSkyAcross=form_data_list[18]['value'],
-streetWidth=form_data_list[19]['value'], vivid=form_data_list[
-20]['value'], damagedBuilding=form_data_list[21]['value'],
-humanPopulation=form_data_list[22]['value'], carParking=form_data_list[
-23]['value'], allStreetFurn=form_data_list[24]['value'],
-smallPlant=form_data_list[25]['value'], histBuildings=form_data_list[
-26]['value'], contemporaryBuildings=form_data_list[27]['value'],
-urbanFeat=form_data_list[28]['value'], greenness=form_data_list[
-29]['value'], accentColor=form_data_list[30]['value'],
-publicSpaceUsage=form_data_list[31]['value'], community=form_data_list[
-32]['value'], trafficVol=form_data_list[33]['value'], walkability=form_data_list[34]['value'],
-            posSamples=pos_samples_list, negSamples=neg_samples_list)
+                6]['value'], opennes=form_data_list[7]['value'],
+                         simpleness=form_data_list[8]['value'], safe=form_data_list[
+                9]['value'], firstFloorUse=form_data_list[10]['value'], prop1FloorWind=form_data_list[
+                11]['value'], pavementQuality=form_data_list[12]['value'],
+                         scenery=form_data_list[13]['value'], pavementContinuity=form_data_list[
+                14]['value'], streetLink=form_data_list[15]['value'],
+                         buildingScale=form_data_list[16]['value'], propStreetWall=form_data_list[
+                17]['value'], propSkyAcross=form_data_list[18]['value'],
+                         streetWidth=form_data_list[19]['value'], vivid=form_data_list[
+                20]['value'], damagedBuilding=form_data_list[21]['value'],
+                         humanPopulation=form_data_list[22]['value'], carParking=form_data_list[
+                23]['value'], allStreetFurn=form_data_list[24]['value'],
+                         smallPlant=form_data_list[25]['value'], histBuildings=form_data_list[
+                26]['value'], contemporaryBuildings=form_data_list[27]['value'],
+                         urbanFeat=form_data_list[28]['value'], greenness=form_data_list[
+                29]['value'], accentColor=form_data_list[30]['value'],
+                         publicSpaceUsage=form_data_list[31]['value'], community=form_data_list[
+                32]['value'], trafficVol=form_data_list[33]['value'], walkability=form_data_list[34]['value'],
+                         posSamples=pos_samples_list, negSamples=neg_samples_list)
 
         db.addEntry(newEntry)
+
+        # Random image id alınıyor:
+        next_image_id = db.getNextImage(username=session['username'])
+
         # Aşağıdaki redirect AJAX nedeniyle çalışmıyor
-        return redirect(url_for('image_page', image_id=image_id , language = "no_op"))
+        return redirect(url_for('image_page', image_id=next_image_id, language="no_op"))

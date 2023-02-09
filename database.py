@@ -2,8 +2,10 @@ import sqlite3 as dbapi2
 from passlib.hash import pbkdf2_sha256 as hasher
 from helpers import read_img_files
 import random
-
+from collections import Counter
 from login_management import User
+
+# generate random number for each user in its entirety ()
 
 
 class Database:
@@ -46,20 +48,24 @@ class Database:
             image_counts, image_paths = read_img_files.read_files(
                 'unprocessed')
 
-            my_arr = [i+1 for i in range(image_counts)]
-            random.shuffle(my_arr)
-
-            result = tuple(zip(image_paths, my_arr))
-            sorted_result = sorted(result, key=lambda x: x[1])
-
-            for i in range(image_counts):
-                path = "/" + sorted_result[i][0]
-                print(path, sorted_result[i][1])
-                self.addImage(image_id=sorted_result[i][1], image_path=path)
-
-            # for i in range():
-            #     path = "/static/images/unprocessed/ahlat/" + str(i) + ".jpeg"
-            #     self.addImage(image_id=i, image_path=path)
+    def addNewImages(self):
+        with dbapi2.connect(self.dbfile) as connection:
+            image_counts, image_paths = read_img_files.read_files(
+                'unprocessed')
+            cursor = connection.cursor()
+            cursor.execute("select * from images")
+            results = cursor.fetchall()
+            db_img_count = len(results)
+            # if new images are added
+            if db_img_count != image_counts:
+                my_arr = [i+db_img_count +
+                          1 for i in range(image_counts - db_img_count)]
+                random.shuffle(my_arr)
+                result = tuple(zip(image_paths[db_img_count:], my_arr))
+                sorted_result = sorted(result, key=lambda x: x[1])
+                for i in range(image_counts - db_img_count):
+                    path = "/" + sorted_result[i][0]
+                    self.addImage(image_id=(i+1+db_img_count), image_path=path)
 
     def addEntry(self, newEntry):
         with dbapi2.connect(self.dbfile) as connection:
@@ -110,9 +116,11 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = """
-            SELECT Image_ID FROM ENTRIES
-            WHERE Username = ?
-            ORDER BY Image_ID DESC
+            SELECT Image_ID FROM IMAGES
+            WHERE Image_ID NOT IN (SELECT Image_ID
+                                    FROM ENTRIES
+                                    WHERE Username = ?)       
+            ORDER BY RANDOM()
             LIMIT 1;
             """
 
@@ -121,12 +129,30 @@ class Database:
             cursor.close()
 
             if next_image_id == None:
-                return 1
+                return None
 
-            else:
-                return int(next_image_id[0]) + 1
+            return int(next_image_id[0])
 
-            return next_image_id
+    def getNextImagePath(self, username):
+        with dbapi2.connect(self.dbfile) as connection:
+            cursor = connection.cursor()
+            query = """
+            SELECT Image_ID, Image_Path FROM IMAGES
+            WHERE Image_ID NOT IN (SELECT Image_ID
+                                    FROM ENTRIES
+                                    WHERE Username = ?)       
+            ORDER BY RANDOM()
+            LIMIT 1;
+            """
+
+            cursor.execute(query, (username,))
+            next_image_id = cursor.fetchone()
+            cursor.close()
+
+            if next_image_id == None:
+                return None
+
+            return next_image_id[1]
 
     def getImagePath(self, image_id):
         with dbapi2.connect(self.dbfile) as connection:
@@ -145,9 +171,8 @@ class Database:
     def addImage(self, image_id, image_path):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = """INSERT INTO IMAGES (Image_ID, Image_Path)
+            query = """INSERT OR IGNORE INTO IMAGES (Image_ID, Image_Path)
             VALUES (?,?);"""
-
             cursor.execute(query, (image_id, image_path))
 
             cursor.close()
