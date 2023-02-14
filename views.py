@@ -54,12 +54,11 @@ def image_page(image_id, language):
     # Türkçe İngilizce config
     db = current_app.config["dbconfig"]
 
-    limit = read_img_files.read_files("unprocessed")[0]
     if image_id == None:
         return redirect(url_for('thankyou'))
     # Image id'ye göre database'den path bulunuyor
     image_path = db.getImagePath(image_id)
-    return render_template("image_page.html", image_path=image_path, image_id=image_id, lang=language, limit=limit,
+    return render_template("image_page.html", image_path=image_path, image_id=image_id, lang=language,
                            range_questions=range_questions,
                            questions_multiple_answers=list(questions_multiple_answers.values()),
                            negatives=negative_tags,

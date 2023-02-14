@@ -7,9 +7,7 @@ const button5 = document.querySelector("#btn5");
 const button6 = document.querySelector("#btn6");
 const canvasItem = document.querySelector("#canvas");
 const get_p = document.querySelector("#get_id");
-const limit = document.querySelector("#get_limit").textContent;
 const lang = document.querySelector("#get_lang").textContent;
-console.log(limit);
 console.log(lang);
 const current_id = get_p.textContent;
 const buttonNext = document.querySelector("#btnNext");
@@ -267,10 +265,6 @@ submitButton.addEventListener("click", (e) => {
       image_id: current_id,
     },
     function (data) {
-      if (current_id == limit) {
-        window.location.href = `/thankyou`;
-        return;
-      }
       window.location = data;
     }
   );
