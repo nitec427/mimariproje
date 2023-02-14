@@ -130,4 +130,4 @@ def handle_form():
         next_image_id = db.getNextImage(username=session['username'])
 
         # Aşağıdaki redirect AJAX nedeniyle çalışmıyor
-        return redirect(url_for('image_page', image_id=next_image_id, language="no_op"))
+        return url_for('image_page', image_id=next_image_id, language="no_op")

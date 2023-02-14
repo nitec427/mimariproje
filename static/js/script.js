@@ -271,8 +271,7 @@ submitButton.addEventListener("click", (e) => {
         window.location.href = `/thankyou`;
         return;
       }
-      // TODO: Bunun yerine views.py'daki handle_form'un render fonksiyonu çalışması lazım
-      window.location.href = `/imageshow/${+current_id + 1}/${lang}`;
+      window.location = data;
     }
   );
 });
