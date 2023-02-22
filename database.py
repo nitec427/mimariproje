@@ -5,8 +5,6 @@ import random
 from collections import Counter
 from login_management import User
 
-# generate random number for each user in its entirety ()
-
 
 class Database:
     def __init__(self, dbfile):
@@ -14,7 +12,6 @@ class Database:
 
     def create(self):
         with dbapi2.connect(self.dbfile) as connection:
-
             # Create users table
             connection.execute(
                 "CREATE TABLE USERS (Username TEXT PRIMARY KEY, Password TEXT)")
@@ -58,14 +55,13 @@ class Database:
             db_img_count = len(results)
             # if new images are added
             if db_img_count != image_counts:
-                my_arr = [i+db_img_count +
-                          1 for i in range(image_counts - db_img_count)]
+                my_arr = [i + db_img_count + 1 for i in range(image_counts - db_img_count)]
                 random.shuffle(my_arr)
                 result = tuple(zip(image_paths[db_img_count:], my_arr))
                 sorted_result = sorted(result, key=lambda x: x[1])
                 for i in range(image_counts - db_img_count):
                     path = "/" + sorted_result[i][0]
-                    self.addImage(image_id=(i+1+db_img_count), image_path=path)
+                    self.addImage(image_id=(i + 1 + db_img_count), image_path=path)
 
     def addEntry(self, newEntry):
         with dbapi2.connect(self.dbfile) as connection:
@@ -77,16 +73,17 @@ class Database:
             greenness, accentColor, publicSpaceUsage, community, trafficVol, posSamples, negSamples)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
-            cursor.execute(query, (newEntry.username, newEntry.image_id, newEntry.pleasant, newEntry.interesting, newEntry.beautiful,
-                                   newEntry.normal, newEntry.calm, newEntry.spacious, newEntry.bright, newEntry.opennes,
-                                   newEntry.simpleness, newEntry.safe, newEntry.walkability, newEntry.firstFloorUse,
-                                   newEntry.prop1FloorWind, newEntry.pavementQuality, newEntry.scenery, newEntry.pavementContinuity,
-                                   newEntry.streetLink, newEntry.buildingScale, newEntry.propStreetWall, newEntry.propSkyAcross,
-                                   newEntry.streetWidth, newEntry.vivid, newEntry.damagedBuilding, newEntry.humanPopulation,
-                                   newEntry.carParking, newEntry.allStreetFurn, newEntry.smallPlant, newEntry.histBuildings,
-                                   newEntry.contemporaryBuildings, newEntry.urbanFeat, newEntry.greenness, newEntry.accentColor,
-                                   newEntry.publicSpaceUsage, newEntry.community, newEntry.trafficVol, newEntry.posSamples,
-                                   newEntry.negSamples))
+            cursor.execute(query, (
+            newEntry.username, newEntry.image_id, newEntry.pleasant, newEntry.interesting, newEntry.beautiful,
+            newEntry.normal, newEntry.calm, newEntry.spacious, newEntry.bright, newEntry.opennes,
+            newEntry.simpleness, newEntry.safe, newEntry.walkability, newEntry.firstFloorUse,
+            newEntry.prop1FloorWind, newEntry.pavementQuality, newEntry.scenery, newEntry.pavementContinuity,
+            newEntry.streetLink, newEntry.buildingScale, newEntry.propStreetWall, newEntry.propSkyAcross,
+            newEntry.streetWidth, newEntry.vivid, newEntry.damagedBuilding, newEntry.humanPopulation,
+            newEntry.carParking, newEntry.allStreetFurn, newEntry.smallPlant, newEntry.histBuildings,
+            newEntry.contemporaryBuildings, newEntry.urbanFeat, newEntry.greenness, newEntry.accentColor,
+            newEntry.publicSpaceUsage, newEntry.community, newEntry.trafficVol, newEntry.posSamples,
+            newEntry.negSamples))
             cursor.close()
 
     def addUser(self, new_user):
@@ -133,6 +130,7 @@ class Database:
 
             return int(next_image_id[0])
 
+    # Unused currently
     def getNextImagePath(self, username):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
@@ -153,6 +151,7 @@ class Database:
                 return None
 
             return next_image_id[1]
+
 
     def getImagePath(self, image_id):
         with dbapi2.connect(self.dbfile) as connection:

@@ -38,7 +38,13 @@ def home_page():
 
         # Kullanıcının son labelladığı resimden bir sonrakini göstereceğiz:
         image_id = db.getNextImage(session['username'])
-        return redirect(url_for('image_page', image_id=image_id, language=request.form['language']))
+
+        if image_id is None:
+            print("NONE")
+            return redirect(url_for('thankyou'))
+        else:
+            print("NOT NONE")
+            return redirect(url_for('image_page', image_id=image_id, language=request.form['language']))
 
 
 def thankyou():
@@ -54,8 +60,6 @@ def image_page(image_id, language):
     # Türkçe İngilizce config
     db = current_app.config["dbconfig"]
 
-    if image_id == None:
-        return redirect(url_for('thankyou'))
     # Image id'ye göre database'den path bulunuyor
     image_path = db.getImagePath(image_id)
     return render_template("image_page.html", image_path=image_path, image_id=image_id, lang=language,
@@ -98,6 +102,7 @@ def handle_form():
         print("User : ", session['username'])
         for item in form_data_list:
             print(item['name'], item['value'])
+
         newEntry = Entry(username=session['username'], image_id=image_id, pleasant=form_data_list[0]['value'],
                          interesting=form_data_list[1]['value'],
                          beautiful=form_data_list[2]['value'], normal=form_data_list[3]['value'],
@@ -129,4 +134,7 @@ def handle_form():
         next_image_id = db.getNextImage(username=session['username'])
 
         # Aşağıdaki redirect AJAX nedeniyle çalışmıyor
-        return url_for('image_page', image_id=next_image_id, language="no_op")
+        if next_image_id is None:
+            return url_for('thankyou')
+        else:
+            return url_for('image_page', image_id=next_image_id, language="no_op")

@@ -265,7 +265,7 @@ submitButton.addEventListener("click", (e) => {
       image_id: current_id,
     },
     function (data) {
-      window.location = data;
+       window.location = data;
     }
   );
 });
