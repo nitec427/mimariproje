@@ -12,7 +12,7 @@ import views
 from database import Database
 from login_management import get_user, User
 from helpers import read_img_files
-app = Flask(__name__)
+
 lm = LoginManager()
 
 
@@ -22,6 +22,7 @@ def load_user(user_id):
 
 
 def create_app():
+    app = Flask(__name__)
     app.config.from_object("settings")
     app.config['SECRET_KEY'] = 'mimari-proje'
 
@@ -44,12 +45,11 @@ def create_app():
     # Create database if not exists
     if (os.path.exists('./archDB.db') == False):
         db.create()
+    db.addNewImages()
     return app
 
 
 if __name__ == '__main__':
-    from waitress import serve
     app = create_app()
-
     port = app.config.get("PORT", 5000)
-    serve(app, host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)

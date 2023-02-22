@@ -5,12 +5,9 @@ const button3 = document.querySelector("#btn3");
 const button4 = document.querySelector("#btn4");
 const button5 = document.querySelector("#btn5");
 const button6 = document.querySelector("#btn6");
-const button7 = document.querySelector("#btn7");
 const canvasItem = document.querySelector("#canvas");
 const get_p = document.querySelector("#get_id");
-const limit = document.querySelector("#get_limit").textContent;
 const lang = document.querySelector("#get_lang").textContent;
-console.log(limit);
 console.log(lang);
 const current_id = get_p.textContent;
 const buttonNext = document.querySelector("#btnNext");
@@ -114,7 +111,6 @@ const button_list = [
   button4,
   button5,
   button6,
-  button7,
 ];
 button1.addEventListener("click", (e) => {
   e.preventDefault();
@@ -193,33 +189,10 @@ button6.addEventListener("click", (e) => {
   buttonNext.classList.remove("d-none");
   carouselItems.forEach((elem) => elem.classList.remove("active"));
   carouselItems[5].classList.add("active");
-});
-button7.addEventListener("click", (e) => {
-  e.preventDefault();
-  // First remove from others
-  button_list.map((button) => button.classList.remove("btn-" + theme));
-  button_list.map((button) => button.classList.add("btn-outline-" + theme));
-  // Add primary now
-  button7.classList.add("btn-" + theme);
-  button7.classList.remove("btn-outline-" + theme);
-  carouselItems.forEach((elem) => elem.classList.remove("active"));
-  carouselItems[6].classList.add("active");
   submitButton.classList.remove("d-none");
   buttonNext.classList.add("d-none");
   buttonPrev.classList.remove("d-none");
 });
-// button8.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   // First remove from others
-//   button_list.map((button) => button.classList.remove("btn-" + theme));
-//   button_list.map((button) => button.classList.add("btn-outline-" + theme));
-//   // Add primary now
-//   button8.classList.add("btn-" + theme);
-//   button8.classList.remove("btn-outline-" + theme);
-//   carouselItems.forEach((elem) => elem.classList.remove("active"));
-//   carouselItems[7].classList.add("active");
-
-// });
 buttonNext.addEventListener("click", (e) => {
   let active = document.querySelector(".carousel-item.active");
   // Get its ID
@@ -238,7 +211,7 @@ buttonNext.addEventListener("click", (e) => {
     active.classList.remove("active");
     next.classList.add("active");
   }
-  if (active_id == 6) {
+  if (active_id == 5) {
     submitButton.classList.remove("d-none");
     buttonNext.classList.add("d-none");
     return;
@@ -292,11 +265,7 @@ submitButton.addEventListener("click", (e) => {
       image_id: current_id,
     },
     function (data) {
-      if (current_id == limit) {
-        window.location.href = `/thankyou`;
-        return;
-      }
-      window.location.href = `/imageshow/${+current_id + 1}/${lang}`;
+       window.location = data;
     }
   );
 });

@@ -31,7 +31,6 @@
         <canvas id="canvas" width=800 height=640 style="background: url('{{image_path}}');background-size: cover"></canvas>
         <div class="mt-4">
           <p class="d-none" id="get_id">{{image_id}}</p>
-          <p class="d-none" id="get_limit">{{limit}}</p>
           <p class="d-none" id="get_lang">{{lang}}</p>
           {% if lang == 'tr' %}
           <button class="btn btn-outline-{{color_theme2}} rounded d-none" id="btnPrev">Önceki Sayfa</button>
@@ -46,8 +45,6 @@
           <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn4">4</button>
           <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn5">5</button>
           <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn6">6</button>
-          <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn7">7</button>
-          <!-- <button class="btn btn-outline-{{color_theme2}} rounded-circle" id="btn8">8</button> -->
 
           {% if lang == 'tr' %}
           <button class="btn btn-outline-{{color_theme2}} rounded " id="btnNext">Sonraki Sayfa</button>
@@ -88,18 +85,16 @@
               {% endfor %}
             </div>
             <div class="carousel-item mt-4" id="2">
-              {% for item in questions_multiple_answers[:5] %}
+              {% for item in questions_multiple_answers[:6] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
                   <div class="row mt-4">
                     {% if lang == 'tr' %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[0]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[2]}}</strong></p>
                     {% else %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[3]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[1]}}</strong></p>
                     {% endif %}
 
                   </div>
@@ -138,18 +133,16 @@
               {% endfor %}
             </div>
             <div class="carousel-item mt-4" id="3">
-              {% for item in questions_multiple_answers[5:10] %}
+              {% for item in questions_multiple_answers[6:12] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
                   <div class="row mt-4">
                     {% if lang == 'tr' %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[0]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[2]}}</strong></p>
                     {% else %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[3]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[1]}}</strong></p>
                     {% endif %}
                   </div>
                   <div class="d-flex justify-content-evenly">
@@ -183,18 +176,16 @@
               {% endfor %}
             </div>
             <div class="carousel-item mt-4" id="4">
-              {% for item in questions_multiple_answers[10:15] %}
+              {% for item in questions_multiple_answers[12:18] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
                   <div class="row mt-4">
                     {% if lang == 'tr' %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[0]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[2]}}</strong></p>
                     {% else %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[3]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[1]}}</strong></p>
                     {% endif %}
                   </div>
                   <div class="d-flex justify-content-evenly">
@@ -227,11 +218,9 @@
                 <div class="d-flex justify-content-center flex-column">
                   <div class="row mt-4">
                     {% if lang == 'tr' %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[0]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[2]}}</strong></p>
                     {% else %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[3]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[1]}}</strong></p>
                     {% endif %}
 
                   </div>
@@ -266,18 +255,16 @@
               {% endfor %}
             </div>
             <div class="carousel-item mt-4" id="5">
-              {% for item in questions_multiple_answers[15:20] %}
+              {% for item in questions_multiple_answers[18:] %}
               <div class="row">
                 <!-- if item 4 is true -->
                 {% if item[3] %}
                 <div class="d-flex justify-content-center flex-column">
                   <div class="row mt-4">
                     {% if lang == 'tr' %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[0]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[2]}}</strong></p>
                     {% else %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[3]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[1]}}</strong></p>
                     {% endif %}
 
                   </div>
@@ -311,97 +298,9 @@
                 <div class="d-flex justify-content-center flex-column">
                   <div class="row mt-4">
                     {% if lang == 'tr' %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[0]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[2]}}</strong></p>
                     {% else %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[3]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong></p>
-                    {% endif %}
-
-                  </div>
-                  <div class="d-flex justify-content-evenly">
-                    {% if lang == 'tr' %}
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
-                    <label class="btn btn-outline-{{color_theme}}   flex-grow-1" for="{{item[0]}}1">Çok Kötü</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}2" autocomplete="off" value="2" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}2">Kötü</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}3" autocomplete="off" value="3" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}3">Orta</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}4" autocomplete="off" value="4" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}4">İyi</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}5" autocomplete="off" value="5" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}5">Çok İyi</label>
-                    {% else %}
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
-                    <label class="btn btn-outline-{{color_theme}}   flex-grow-1" for="{{item[0]}}1">Very Unsatisfied</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}2" autocomplete="off" value="2" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}2">Unsatisfied</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}3" autocomplete="off" value="3" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}3">Neutral</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}4" autocomplete="off" value="4" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}4">Satisfied</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}5" autocomplete="off" value="5" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}5">Very Satisfied</label>
-                    {% endif %}
-                  </div>
-                </div>
-                {% endif %}
-
-
-              </div>
-              {% endfor %}
-            </div>
-            <div class="carousel-item mt-4" id="6">
-              {% for item in questions_multiple_answers[20:] %}
-              <div class="row">
-                <!-- if item 4 is true -->
-                {% if item[3] %}
-                <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-4">
-                    {% if lang == 'tr' %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[0]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong></p>
-                    {% else %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[3]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong></p>
-                    {% endif %}
-                  </div>
-                  <div class="d-flex justify-content-evenly">
-                    {% if lang == 'tr' %}
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
-                    <label class="btn btn-outline-{{color_theme}}   flex-grow-1" for="{{item[0]}}1">Çok Kötü</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}2" autocomplete="off" value="2" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}2">Kötü</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}3" autocomplete="off" value="3" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}3">Orta</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}4" autocomplete="off" value="4" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}4">İyi</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}5" autocomplete="off" value="5" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}5">Çok İyi</label>
-                    {% else %}
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}1" autocomplete="off" value="1" />
-                    <label class="btn btn-outline-{{color_theme}}   flex-grow-1" for="{{item[0]}}1">Very Unsatisfied</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}2" autocomplete="off" value="2" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}2">Unsatisfied</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}3" autocomplete="off" value="3" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}3">Neutral</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}4" autocomplete="off" value="4" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}4">Satisfied</label>
-                    <input type="radio" class="btn-check" name="{{item[0]}}" id="{{item[0]}}5" autocomplete="off" value="5" />
-                    <label class="btn btn-outline-{{color_theme}}  flex-grow-1" for="{{item[0]}}5">Very Satisfied</label>
-                    {% endif %}
-                  </div>
-
-                </div>
-                {% else %}
-                <div class="d-flex justify-content-center flex-column">
-                  <div class="row mt-4">
-                    {% if lang == 'tr' %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[0]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[2]}}</strong></p>
-                    {% else %}
-                    <h4 class="text-white">{{item[5]}}-) {{item[3]}}</h4>
-                    <p class="lead mt-1 text-white text-white"><strong>{{item[1]}}</strong></p>
+                    <p class="lead mt-3 text-white text-white">{{item[5]}}-) <strong>{{item[1]}}</strong></p>
                     {% endif %}
 
                   </div>
@@ -438,7 +337,7 @@
               {% endfor %}
             </div>
             <!-- At least 1 element should be selected for selecting either positive or negative sample. If not alert the user. -->
-            <div class="carousel-item mt-4 container" id="7">
+            <div class="carousel-item mt-4 container" id="6">
               <div class="row align-items-center mt-5 justify-content-center">
                 {% if lang == 'tr' %}
                 <h3 class="text-white mb-4">Lütfen mevcut negatif öğeyle ilişkilendirdiğiniz etiketi seçin</h3>
@@ -467,11 +366,11 @@
                 {% for item in positives %}
                 <div class="col-2 d-flex mb-3">
                   {% if lang == 'tr' %}
-                  <input type="radio" class="btn-check flex-fill" name="negatives" value="{{item[2]}}neg" id="{{item[2]}}0">
-                  <label class="btn btn-outline-{{color_theme}} flex-fill" for="{{item[2]}}0">{{item[2]}}</label>
+                  <input type="radio" class="btn-check flex-fill" name="positives" value="{{item[2]}}pos" id="{{item[2]}}1">
+                  <label class="btn btn-outline-{{color_theme}} flex-fill" for="{{item[2]}}1">{{item[2]}}</label>
                   {% else %}
-                  <input type="radio" class="btn-check flex-fill" name="negatives" value="{{item[1]}}neg" id="{{item[1]}}0">
-                  <label class="btn btn-outline-{{color_theme}} flex-fill" for="{{item[1]}}0">{{item[1]}}</label>
+                  <input type="radio" class="btn-check flex-fill" name="positives" value="{{item[1]}}pos" id="{{item[1]}}1">
+                  <label class="btn btn-outline-{{color_theme}} flex-fill" for="{{item[1]}}1">{{item[1]}}</label>
                   {% endif %}
 
                 </div>
