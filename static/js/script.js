@@ -263,6 +263,7 @@ submitButton.addEventListener("click", (e) => {
       negative_samples: JSON.stringify(negative_samples),
       positive_samples: JSON.stringify(positive_samples),
       image_id: current_id,
+      language: lang,
     },
     function (data) {
        window.location = data;

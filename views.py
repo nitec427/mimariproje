@@ -92,6 +92,7 @@ def handle_form():
         negative_samples = request.form['negative_samples']
         positive_samples = request.form['positive_samples']
         image_id = request.form['image_id']
+        lang = request.form['language']
         form_data_list = json.loads(jsdata)
         neg_samples_list = str(json.loads(negative_samples))
         pos_samples_list = str(json.loads(positive_samples))
@@ -137,4 +138,4 @@ def handle_form():
         if next_image_id is None:
             return url_for('thankyou')
         else:
-            return url_for('image_page', image_id=next_image_id, language="no_op")
+            return url_for('image_page', image_id=next_image_id, language=lang)
