@@ -245,10 +245,11 @@ buttonPrev.addEventListener("click", (e) => {
 // JQuery Code
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
-  if (counter != 24) {
+  // hiç etiketlenmemişse geç
+  console.log(counter);
+ if (counter > 0 && counter < 24 ) {
     if (lang == "en") alert("Please fill in all the fields.");
     else alert("Lütfen tüm alanları doldurun.");
-    // go to next page
     return;
   }
   if (lang == "en") alert("Your data is saved. Thank you.");

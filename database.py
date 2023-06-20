@@ -14,11 +14,13 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             # Create users table
             connection.execute(
-                "CREATE TABLE USERS (Username TEXT PRIMARY KEY, Password TEXT)")
+                "CREATE TABLE USERS (Username TEXT PRIMARY KEY, Password TEXT)"
+            )
 
             # Create images table
             connection.execute(
-                "CREATE TABLE IMAGES (Image_ID INTEGER PRIMARY KEY AUTOINCREMENT, Image_Path TEXT)")
+                "CREATE TABLE IMAGES (Image_ID INTEGER PRIMARY KEY AUTOINCREMENT, Image_Path TEXT)"
+            )
             # !! Image path'ler database'e eklenmeli !!
 
             # Create entries table
@@ -26,15 +28,15 @@ class Database:
                 """
                 CREATE TABLE ENTRIES (ID INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, Image_ID INTEGER, pleasant INTEGER,
                 interesting INTEGER, beautiful INTEGER, normal INTEGER, calm INTEGER, spacious INTEGER, bright INTEGER,
-                opennes INTEGER, simpleness INTEGER, safe INTEGER, walkability INTEGER, firstFloorUse INTEGER, prop1FloorWind INTEGER,
-                pavementQuality INTEGER, scenery INTEGER, pavementContinuity INTEGER, streetLink INTEGER, buildingScale INTEGER,
+                opennes INTEGER, simpleness INTEGER, safe INTEGER, walkability INTEGER, pedAccessibilityWalkability INTEGER, aestheticWalkability INTEGER,  firstFloorUse INTEGER, prop1FloorWind INTEGER, pavementQuality INTEGER, scenery INTEGER, pavementContinuity INTEGER, streetLink INTEGER, buildingScale INTEGER,
                 propStreetWall INTEGER, propSkyAcross INTEGER, streetWidth INTEGER, vivid INTEGER, damagedBuilding INTEGER,
                 humanPopulation INTEGER, carParking INTEGER, allStreetFurn INTEGER, smallPlant INTEGER, histBuildings INTEGER,
                 contemporaryBuildings INTEGER, urbanFeat INTEGER, greenness INTEGER, accentColor INTEGER, publicSpaceUsage INTEGER,
                 community INTEGER, trafficVol INTEGER, posSamples CLOB, negSamples CLOB,
                 FOREIGN KEY (Username) REFERENCES USERS(Username),
                 FOREIGN KEY (Image_ID) REFERENCES IMAGES(Image_ID))
-                """)
+                """
+            )
 
             # Create admin
             username = "admin"
@@ -42,20 +44,20 @@ class Database:
 
             new_user = User(username, password)
             self.addUser(new_user)
-            image_counts, image_paths = read_img_files.read_files(
-                'unprocessed')
+            image_counts, image_paths = read_img_files.read_files("unprocessed")
 
     def addNewImages(self):
         with dbapi2.connect(self.dbfile) as connection:
-            image_counts, image_paths = read_img_files.read_files(
-                'unprocessed')
+            image_counts, image_paths = read_img_files.read_files("unprocessed")
             cursor = connection.cursor()
             cursor.execute("select * from images")
             results = cursor.fetchall()
             db_img_count = len(results)
             # if new images are added
             if db_img_count != image_counts:
-                my_arr = [i + db_img_count + 1 for i in range(image_counts - db_img_count)]
+                my_arr = [
+                    i + db_img_count + 1 for i in range(image_counts - db_img_count)
+                ]
                 random.shuffle(my_arr)
                 result = tuple(zip(image_paths[db_img_count:], my_arr))
                 sorted_result = sorted(result, key=lambda x: x[1])
@@ -67,23 +69,56 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = """INSERT INTO ENTRIES (Username, Image_ID, pleasant, interesting, beautiful, normal, calm, spacious,
-            bright, opennes, simpleness, safe, walkability, firstFloorUse, prop1FloorWind, pavementQuality, scenery,
-            pavementContinuity, streetLink, buildingScale, propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding,
-            humanPopulation, carParking, allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat,
+            bright, opennes, simpleness, safe, walkability,pedAccessibilityWalkability, aestheticWalkability, firstFloorUse, prop1FloorWind, pavementQuality, scenery,  pavementContinuity, streetLink, buildingScale, propStreetWall, propSkyAcross, streetWidth, vivid, damagedBuilding, humanPopulation, carParking, allStreetFurn, smallPlant, histBuildings, contemporaryBuildings, urbanFeat,
             greenness, accentColor, publicSpaceUsage, community, trafficVol, posSamples, negSamples)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
-            cursor.execute(query, (
-            newEntry.username, newEntry.image_id, newEntry.pleasant, newEntry.interesting, newEntry.beautiful,
-            newEntry.normal, newEntry.calm, newEntry.spacious, newEntry.bright, newEntry.opennes,
-            newEntry.simpleness, newEntry.safe, newEntry.walkability, newEntry.firstFloorUse,
-            newEntry.prop1FloorWind, newEntry.pavementQuality, newEntry.scenery, newEntry.pavementContinuity,
-            newEntry.streetLink, newEntry.buildingScale, newEntry.propStreetWall, newEntry.propSkyAcross,
-            newEntry.streetWidth, newEntry.vivid, newEntry.damagedBuilding, newEntry.humanPopulation,
-            newEntry.carParking, newEntry.allStreetFurn, newEntry.smallPlant, newEntry.histBuildings,
-            newEntry.contemporaryBuildings, newEntry.urbanFeat, newEntry.greenness, newEntry.accentColor,
-            newEntry.publicSpaceUsage, newEntry.community, newEntry.trafficVol, newEntry.posSamples,
-            newEntry.negSamples))
+            cursor.execute(
+                query,
+                (
+                    newEntry.username,
+                    newEntry.image_id,
+                    newEntry.pleasant,
+                    newEntry.interesting,
+                    newEntry.beautiful,
+                    newEntry.normal,
+                    newEntry.calm,
+                    newEntry.spacious,
+                    newEntry.bright,
+                    newEntry.opennes,
+                    newEntry.simpleness,
+                    newEntry.safe,
+                    newEntry.walkability,
+                    newEntry.pedAccessibilityWalkability,
+                    newEntry.aestheticWalkability,
+                    newEntry.firstFloorUse,
+                    newEntry.prop1FloorWind,
+                    newEntry.pavementQuality,
+                    newEntry.scenery,
+                    newEntry.pavementContinuity,
+                    newEntry.streetLink,
+                    newEntry.buildingScale,
+                    newEntry.propStreetWall,
+                    newEntry.propSkyAcross,
+                    newEntry.streetWidth,
+                    newEntry.vivid,
+                    newEntry.damagedBuilding,
+                    newEntry.humanPopulation,
+                    newEntry.carParking,
+                    newEntry.allStreetFurn,
+                    newEntry.smallPlant,
+                    newEntry.histBuildings,
+                    newEntry.contemporaryBuildings,
+                    newEntry.urbanFeat,
+                    newEntry.greenness,
+                    newEntry.accentColor,
+                    newEntry.publicSpaceUsage,
+                    newEntry.community,
+                    newEntry.trafficVol,
+                    newEntry.posSamples,
+                    newEntry.negSamples,
+                ),
+            )
             cursor.close()
 
     def addUser(self, new_user):
@@ -91,8 +126,7 @@ class Database:
             cursor = connection.cursor()
             query = """INSERT INTO USERS (username, password)
             VALUES (?, ?)"""
-            cursor.execute(
-                query, (new_user.get_username(), new_user.get_password()))
+            cursor.execute(query, (new_user.get_username(), new_user.get_password()))
             cursor.close()
 
     def getPassword(self, username):
@@ -151,7 +185,6 @@ class Database:
                 return None
 
             return next_image_id[1]
-
 
     def getImagePath(self, image_id):
         with dbapi2.connect(self.dbfile) as connection:

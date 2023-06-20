@@ -66,9 +66,9 @@
               <div class="row">
 
                 {% if lang == "tr" %}
-                <div class="col-sm-2 text-white text-center big-text"><b> {{question[2]}}</b></div>
+                <div class="col-sm-2 text-white text-center"><b> {{question[2]}}</b></div>
                 {% else %}
-                <div class="col-sm-2 text-white text-center big-text"><b> {{question[0]}}</b></div>
+                <div class="col-sm-2 text-white text-center"><b> {{question[0]}}</b></div>
                 {% endif %}
 
                 <div class="col-sm-8 range-wrap">
@@ -76,9 +76,9 @@
                   <output class="bubble"></output>
                 </div>
                 {% if lang == 'tr' %}
-                <div class="col-sm-2 text-white text-center big-text"><b>{{question[3]}}</b></div>
+                <div class="col-sm-2 text-white text-center"><b>{{question[3]}}</b></div>
                 {% else %}
-                <div class="col-sm-2 text-white text-center big-text"><b>{{question[1]}}</b></div>
+                <div class="col-sm-2 text-white text-center"><b>{{question[1]}}</b></div>
                 {% endif %}
 
               </div>
@@ -392,9 +392,9 @@
                 </div>
                 <div class="row mt-5">
                   {% if lang == "tr" %}
-                  <div class="col-sm-2 text-white text-center big-text"><b>Yürünemez</b></div>
+                  <div class="col-sm-2 text-white text-center"><b>Yürünemez</b></div>
                   {% else %}
-                  <div class="col-sm-2 text-white text-center big-text"><b>Not Walkable</b></div>
+                  <div class="col-sm-2 text-white text-center"><b>Not Walkable</b></div>
                   {% endif %}
 
                   <div class="col-sm-8 range-wrap">
@@ -402,9 +402,40 @@
                     <output class="bubble"></output>
                   </div>
                   {% if lang == 'tr' %}
-                  <div class="col-sm-2 text-white text-center big-text"><b>Yürünebilir</b></div>
+                  <div class="col-sm-2 text-white text-center"><b>Yürünebilir (Yaya Güvenliği)</b></div>
                   {% else %}
-                  <div class="col-sm-2 text-white text-center big-text"><b>Walkable</b></div>
+                  <div class="col-sm-2 text-white text-center"><b>Walkable(Pedestrian Safety) </b></div>
+                  {% endif %}
+                  {% if lang == "tr" %}
+                  <div class="col-sm-2 text-white text-center"><b>Yürünemez</b></div>
+                  {% else %}
+                  <div class="col-sm-2 text-white text-center"><b>Not Walkable</b></div>
+                  {% endif %}
+
+                  <div class="col-sm-8 range-wrap">
+                    <input type="range" name="accessibleWalkable" class="form-range " min="-10" max="10" step="1" id="accessibleWalkable">
+                    <output class="bubble"></output>
+                  </div>
+                  {% if lang == 'tr' %}
+                  <div class="col-sm-2 text-white text-center"><b>Yürünebilir (Yaya erişilebilirliği)</b></div>
+                  {% else %}
+                  <div class="col-sm-2 text-white text-center"><b>Walkable (Pedestrian Accesibility)</b></div>
+                  {% endif %}
+                  {% if lang == "tr" %}
+                  <div class="col-sm-2 text-white text-center"><b>Yürünemez</b></div>
+                  {% else %}
+                  <div class="col-sm-2 text-white text-center"><b>Not Walkable</b></div>
+                  {% endif %}
+
+                  <div class="col-sm-8 range-wrap">
+                    <input type="range" name="aestheticWalkable" class="form-range " min="-10" max="10" step="1" id="aestheticWalkable">
+                    <output class="bubble"></output>
+                  </div>
+
+                  {% if lang == 'tr' %}
+                  <div class="col-sm-2 text-white text-center"><b>Yürünebilir (Sokak Estetiği) </b></div>
+                  {% else %}
+                  <div class="col-sm-2 text-white text-center"><b>Walkable (Street Aesthetic) </b></div>
                   {% endif %}
                 </div>
               </div>
